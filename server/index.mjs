@@ -1,22 +1,36 @@
 import express from "express";
-import connection from "../server/db/config.mjs"
-
-connection.connect();
-let res, def = '';
-connection.query('SELECT * FROM user', function (error, results, fields) {
-  if (error) throw error;
-  res = results
-  console.log(JSON.stringify(results));
-  def = JSON.stringify(results)
-
-});
-
-connection.end();
-
+import Expense from "./db/Expense.mjs";
+import Categorie from "./db/categorie.mjs";
 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+
+//index or get all
+app.get("/categories", (req, res) => {
+  res.json({ categories: Categorie.selectAll() });
+});
+
+//create
+app.post("/categories", (req, res) => {
+  let categorie = req.body;
+  Categorie.insert(categorie);
+  res.send({ message: 'New categorie was added', });
+});
+
+
+//index or get all
+app.get("/expenses", (req, res) => {
+  res.json({ expenses: Expense.selectAll() });
+});
+
+//create
+app.post("/expenses", (req, res) => {
+  let expenses = req.body;
+  Expense.insert(expenses);
+  res.send({ message: 'New expense was added', });
+});
+
 app.get("/api", (req, res) => {
     res.json({ message: JSON.parse(def) });
 });
