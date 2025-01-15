@@ -28,7 +28,7 @@ app.get("/expenses", (req, res) => {
 app.post("/expenses", (req, res) => {
   let expenses = req.body;
   Expense.insert(expenses);
-  res.send({ message: 'New expense was added', });
+  res.json({ expenses: Expense.selectAll() });
 });
 
 app.get("/api", (req, res) => {
