@@ -4,9 +4,9 @@ const ExpensesContext = createContext();
 
 const Provider = ({ children }) => {
     const [expenses, setExpenses] = useState([]);
-
+    let port = '3001';
     const getExpenses = async () => {
-        const url = 'http://localhost:3000/expenses';
+        const url = `http://localhost:${port}/expenses`;
         try {
             const response = await fetch(url, {
                 method: 'GET',
@@ -18,7 +18,8 @@ const Provider = ({ children }) => {
 
             const storedExpenses = await response.json();
             //update the expenses
-            if (storedExpenses) setExpenses(storedExpenses);
+            console.log(storedExpenses);
+            if (storedExpenses) setExpenses(JSON.parse(storedExpenses.expenses));
         } catch (error) {
             console.error('Error during the get process : ', error);
         }
@@ -26,7 +27,7 @@ const Provider = ({ children }) => {
 
     const  createExpense = async (amount, date, description, idCategorie) => {
         //call an API to create new expenses
-        const url = 'http://localhost:3000/expenses';
+        const url = `http://localhost:${port}/expenses`;
         try {
             const response = await fetch(url, {
                 method: 'POST',
@@ -49,7 +50,7 @@ const Provider = ({ children }) => {
 
     //remove 
     const removeExpense = async (id) => {
-        const url = `http://localhost:3000/expenses/${id}`;
+        const url = `http://localhost:${port}/expenses/${id}`;
 
         try {
             const response = await fetch(url, {
@@ -69,7 +70,7 @@ const Provider = ({ children }) => {
     };
 
     const changeExpense = async (id, amount, date, description, idCategorie) => {
-        const url = `http://localhost:3000/expenses/${id}`;
+        const url = `http://localhost:${port}/expenses/${id}`;
         const data = {amount, date, description, idCategorie};
 
         try {

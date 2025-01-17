@@ -1,10 +1,12 @@
 import express from "express";
 import Expense from "./db/Expense.mjs";
 import Categorie from "./db/categorie.mjs";
+import cors from "cors";
 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+app.use(cors());
 
 //index or get all
 app.get("/categories", (req, res) => {
@@ -21,18 +23,18 @@ app.post("/categories", (req, res) => {
 
 //index or get all
 app.get("/expenses", (req, res) => {
-  res.json({ expenses: Expense.selectAll() });
+  res.json({ expenses: (Expense.selectAll()) });
 });
 
 //create
-app.post("/expenses", (req, res) => {
+/*app.post("/expenses", (req, res) => {
   let expenses = req.body;
   Expense.insert(expenses);
   res.json({ expenses: Expense.selectAll() });
-});
+});*/
 
 app.get("/api", (req, res) => {
-    res.json({ message: JSON.parse(def) });
+    res.json({ message: 'Hello franck' });
 });
 
 app.listen(PORT, () => {

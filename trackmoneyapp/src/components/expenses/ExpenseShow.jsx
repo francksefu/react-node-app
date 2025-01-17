@@ -21,22 +21,22 @@ const ExpenseShow = ({expense}) => {
     if (showEdit) {
         return(
             <tr>
-                <td class="p-4 border-b border-blue-gray-50">
-                    <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                <td className="p-4 border-b border-blue-gray-50">
+                    <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
                         <input type="date" value={expense.date}/>
                     </p>
                 </td>
-                <td class="p-4 border-b border-blue-gray-50">
-                    <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                <td className="p-4 border-b border-blue-gray-50">
+                    <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
                         <input type="number" range="0.01" value={expense.amount}/>
                     </p>
                 </td>
-                <td class="p-4 border-b border-blue-gray-50">
-                    <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                <td className="p-4 border-b border-blue-gray-50">
+                    <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
                         <textarea>{expense.description}</textarea>
                     </p>
                 </td>
-                <td class="p-4 border-b border-blue-gray-50">
+                <td className="p-4 border-b border-blue-gray-50">
                     <button onClick={handleSubmit}>Done</button>
                 </td>
             </tr>
@@ -44,27 +44,27 @@ const ExpenseShow = ({expense}) => {
     } else {
         return(
            <tr>
-                <td class="p-4 border-b border-blue-gray-50">
-                    <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                <td className="p-4 border-b border-blue-gray-50">
+                    <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
                     {expense.date}
                     </p>
                 </td>
-                <td class="p-4 border-b border-blue-gray-50">
-                    <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                <td className="p-4 border-b border-blue-gray-50">
+                    <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
                     {expense.amount}
                     </p>
                 </td>
-                <td class="p-4 border-b border-blue-gray-50">
-                    <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                <td className="p-4 border-b border-blue-gray-50">
+                    <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
                     {expense.description}
                     </p>
                 </td>
-                <td class="p-4 border-b border-blue-gray-50">
-                    <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+                <td className="p-4 border-b border-blue-gray-50">
+                    <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
                     {expense.idCategorie}
                     </p>
                 </td>
-                <td class="p-4 border-b border-blue-gray-50">
+                <td className="p-4 border-b border-blue-gray-50">
                     <button onClick={handleDelete}>Delete</button>
                     <button onClick={handleEdit}>Edit</button>
                 </td>
@@ -72,3 +72,4 @@ const ExpenseShow = ({expense}) => {
         );
     }
 }
+export default ExpenseShow;

@@ -1,9 +1,20 @@
+import { useContext, useEffect } from "react";
+import ExpensesContext from "./context/expenses";
+import ExpensesList from "./components/expenses/ExpensesList";
+
 function App() {
+  const {getExpenses} = useContext(ExpensesContext);
+
+  useEffect(() => {
+    getExpenses();
+  });
+
   return (
     <div className="App">
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
+      <h1 className="text-3xl font-bold text-gray-500">
+        Expenses
       </h1>
+      <ExpensesList />
     </div>
   );
 }
