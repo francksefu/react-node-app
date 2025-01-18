@@ -1,13 +1,42 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import ExpensesContext from "../../context/expenses"
 import ExpenseShow from "./ExpenseShow";
+import CreateExpense from "./CreateExpense";
+import Modal from "react-modal";
 
 const ExpensesList = () => {
     const {expenses} = useContext(ExpensesContext);
 
     const renderedExpenses = expenses.map((expense) => {
-        return <ExpenseShow expense={expense} />;
+        return <ExpenseShow key={expense.id} expense={expense} />;
     });
+
+    const customStyles = {
+        content: {
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          width: '80%',
+          marginRight: '-50%',
+          transform: 'translate(-50%, -50%)',
+        },
+    };
+
+    Modal.setAppElement('#root');
+    const [modalIsOpen, setIsOpen] = useState(false);
+
+    function openModal() {
+        setIsOpen(true);
+    }
+
+    function closeModal() {
+        setIsOpen(false);
+    }
+
+    function afterOpenModal() {
+        console.log('I am open');
+    }
 
     return(
         <>
@@ -42,6 +71,16 @@ const ExpensesList = () => {
                 </tbody>
                 </table>
             </div>
+            <button className=" mx-auto m-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={openModal}>Open Modal</button>
+            <Modal
+                isOpen={modalIsOpen}
+                onAfterOpen={afterOpenModal}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="Example Modal"
+            >
+                <CreateExpense />
+            </Modal>
         </>
     );
 }

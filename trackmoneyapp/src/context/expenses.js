@@ -18,14 +18,14 @@ const Provider = ({ children }) => {
 
             const storedExpenses = await response.json();
             //update the expenses
-            console.log(storedExpenses);
+            
             if (storedExpenses) setExpenses(JSON.parse(storedExpenses.expenses));
         } catch (error) {
             console.error('Error during the get process : ', error);
         }
     };
 
-    const  createExpense = async (amount, date, description, idCategorie) => {
+    const  createExpense = async (date, amount, description, idCategorie) => {
         //call an API to create new expenses
         const url = `http://localhost:${port}/expenses`;
         try {
@@ -35,14 +35,17 @@ const Provider = ({ children }) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    amount, date, description, idCategorie
+                    'amount' : amount, 
+                    'date' : date, 
+                    'description' : description, 
+                    'idCategorie' : idCategorie,
                 }),
             });
 
             if (!response.ok) throw new Error('Network response was not good');
             const responseData = await response.json();
             
-            setExpenses(responseData);
+            setExpenses(JSON.parse(responseData));
         } catch (error) {
             console.error('Error occured when creating a new expense : ', error);
         }

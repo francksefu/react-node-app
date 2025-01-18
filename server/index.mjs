@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 3001;
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
 //index or get all
 app.get("/categories", (req, res) => {
@@ -27,11 +28,11 @@ app.get("/expenses", (req, res) => {
 });
 
 //create
-/*app.post("/expenses", (req, res) => {
-  let expenses = req.body;
+app.post("/expenses", (req, res) => {
+  let expenses = (req.body);
   Expense.insert(expenses);
   res.json({ expenses: Expense.selectAll() });
-});*/
+});
 
 app.get("/api", (req, res) => {
     res.json({ message: 'Hello franck' });

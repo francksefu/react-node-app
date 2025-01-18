@@ -3,14 +3,14 @@ import connection from "./config.mjs"
 class Expense {
     static expenses;
 
-    static insert(amount, date, description, idCategorie) {
+    static insert({date, amount, description, idCategorie}) {
         let lastId;
         let expense = {amount, date, description, idCategorie}
         let query = connection.query('INSERT INTO expense SET ?', expense, function(err, results, fields) {
             if (err) throw err;
             lastId = results.insertId;
         })
-        return lastId;
+        return true;
     }
 
     static selectAll() {
