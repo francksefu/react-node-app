@@ -66,15 +66,15 @@ const Provider = ({ children }) => {
             if (!response.ok) throw new Error('Network problem');
 
             const responseData = response.json();
-            setExpenses(responseData);
+            setExpenses(JSON.parse(responseData));
         } catch (error) {
             console.error('Error durin delete process: ', error);
         }
     };
 
-    const changeExpense = async (id, amount, date, description, idCategorie) => {
+    const changeExpense = async (amount, date, description, idCategorie, id) => {
         const url = `http://localhost:${port}/expenses/${id}`;
-        const data = {amount, date, description, idCategorie};
+        const data = {amount, date, description, idCategorie, id};
 
         try {
             const response = await fetch(url, {
@@ -88,7 +88,7 @@ const Provider = ({ children }) => {
             if (!response.ok) throw new Error('Network problem');
             
             const responseData = response.json();
-            setExpenses(responseData);
+            setExpenses(JSON.parse(responseData));
         } catch (error) {
             console.error('An error occur in update process');
         }

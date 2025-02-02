@@ -14,7 +14,7 @@ class Expense {
     }
 
     static selectAll() {
-        let sql = 'SELECT * FROM expense';
+        let sql = 'SELECT * FROM expense order by id desc';
         connection.query(sql, function (error, results, fields) {
             if (error) throw error;
             Expense.expenses = JSON.stringify(results);
@@ -22,13 +22,13 @@ class Expense {
         return Expense.expenses;
     }
 
-    static update(amount, date, description, idCategorie, id) {
-        let sql = 'UPDATE expense SET amount = ?, date = ?, description = ?, idCategorie = ?, WHERE id = ?';
+    static update({amount, date, description, idCategorie, id}) {
+        let sql = 'UPDATE expense SET amount = ?, date = ?, description = ?, idCategorie = ? WHERE id = ?';
         let contentUpdate = [amount, date, description, idCategorie, id];
         connection.query(sql, contentUpdate, function (error, results, fields) {
             if (error) throw error;
         });
-        return true;
+        return Expense.expenses;
     }
 
     static delete (id) {

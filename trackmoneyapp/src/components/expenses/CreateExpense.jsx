@@ -1,22 +1,24 @@
 import { useContext, useState } from "react"
 import ExpensesContext from "../../context/expenses";
 
-const CreateExpense = () => {
-    const [date, setDate] = useState(new Date());
-    const [amount, setAmount] = useState(0);
-    const [description, setDescription] = useState('');
-    const [idCategorie, setIdCategorie] = useState('1');
+const CreateExpense = ({closeModal ,editExpenseItem = null}) => {
+    const [id, setId] = useState(editExpenseItem ? editExpenseItem.id : null);
+    const [date, setDate] = useState(editExpenseItem ? editExpenseItem.date : new Date());
+    const [amount, setAmount] = useState(editExpenseItem ? editExpenseItem.amount : 0);
+    const [description, setDescription] = useState(editExpenseItem ? editExpenseItem.description : '');
+    const [idCategorie, setIdCategorie] = useState(editExpenseItem ? editExpenseItem.idCategorie : '1');
 
-    const { createExpense } = useContext(ExpensesContext);
+    const { createExpense, changeExpense } = useContext(ExpensesContext);
     
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log({date, amount, description, idCategorie});
-        createExpense(date, amount, description, idCategorie );
-        setDate(new Date());
-        setAmount(0);
-        setDescription('');
-        setIdCategorie('1');
+        if (editExpenseItem) {
+            changeExpense(amount, date, description, idCategorie, id);
+        } else {
+            createExpense(date, amount, description, idCategorie );
+        }
+        closeModal();
     }
 
     return(

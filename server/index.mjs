@@ -26,6 +26,28 @@ app.post("/categories", (req, res) => {
 app.get("/expenses", (req, res) => {
   res.json({ expenses: (Expense.selectAll()) });
 });
+//update
+
+app.put("/expenses/:id", (req, res) => {
+  try {
+    let expenseItem = req.body;
+    Expense.update(expenseItem);
+    res.json({ expenses: Expense.selectAll() });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+});
+
+app.delete("/expenses/:id", (req, res) => {
+  try {
+    let id = req.params.id;
+    Expense.delete(id);
+    res.json({ expenses: Expense.selectAll() });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+});
+
 
 //create
 app.post("/expenses", (req, res) => {

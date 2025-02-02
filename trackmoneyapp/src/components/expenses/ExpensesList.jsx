@@ -40,6 +40,7 @@ const ExpensesList = () => {
 
     return(
         <>
+            <button className=" mx-auto m-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={openModal}>Open Modal</button>
             <div className="p-6 px-0 overflow-scroll">
                 <table className="w-full text-left table-auto min-w-max">
                 <thead>
@@ -64,6 +65,11 @@ const ExpensesList = () => {
                             Categorie
                             </p>
                         </th>
+                        <th className="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50">
+                            <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                            Action
+                            </p>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,7 +77,7 @@ const ExpensesList = () => {
                 </tbody>
                 </table>
             </div>
-            <button className=" mx-auto m-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={openModal}>Open Modal</button>
+            
             <Modal
                 isOpen={modalIsOpen}
                 onAfterOpen={afterOpenModal}
@@ -79,7 +85,7 @@ const ExpensesList = () => {
                 style={customStyles}
                 contentLabel="Example Modal"
             >
-                <CreateExpense />
+                <CreateExpense closeModal={closeModal}/>
             </Modal>
         </>
     );

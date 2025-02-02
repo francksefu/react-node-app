@@ -1,49 +1,43 @@
 import { useContext, useState } from "react"
 import ExpensesContext from "../../context/expenses";
+import Modal from "react-modal";
+import CreateExpense from "./CreateExpense";
 
 const ExpenseShow = ({expense}) => {
-    const [showEdit, setShowEdit] = useState(false);
-    const { removeExpense, changeExpense } = useContext(ExpensesContext);
+    const { removeExpense} = useContext(ExpensesContext);
+    const [modalIsOpen, setIsOpen] = useState(false);
 
     const handleDelete = (e) => {
         removeExpense(expense.id);
     }
 
-    const handleEdit = (e) => {
-        setShowEdit(!showEdit);
+    const customStyles = {
+        content: {
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          width: '80%',
+          marginRight: '-50%',
+          transform: 'translate(-50%, -50%)',
+        },
+    };
+
+    function openModal() {
+        setIsOpen(true);
     }
 
-    const handleSubmit = (id, amount, date, description, idCategorie) => {
-        changeExpense(id, amount, date, description, idCategorie);
-        setShowEdit(false);
+    function closeModal() {
+        setIsOpen(false);
     }
 
-    if (showEdit) {
-        return(
+    function afterOpenModal() {
+        console.log('I am open');
+    }
+
+    return(
+        <>
             <tr>
-                <td className="p-4 border-b border-blue-gray-50">
-                    <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                        <input type="date" value={expense.date}/>
-                    </p>
-                </td>
-                <td className="p-4 border-b border-blue-gray-50">
-                    <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                        <input type="number" range="0.01" value={expense.amount}/>
-                    </p>
-                </td>
-                <td className="p-4 border-b border-blue-gray-50">
-                    <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                        <textarea>{expense.description}</textarea>
-                    </p>
-                </td>
-                <td className="p-4 border-b border-blue-gray-50">
-                    <button onClick={handleSubmit}>Done</button>
-                </td>
-            </tr>
-        );
-    } else {
-        return(
-           <tr>
                 <td className="p-4 border-b border-blue-gray-50">
                     <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
                     {expense.date}
@@ -65,11 +59,21 @@ const ExpenseShow = ({expense}) => {
                     </p>
                 </td>
                 <td className="p-4 border-b border-blue-gray-50">
-                    <button onClick={handleDelete}>Delete</button>
-                    <button onClick={handleEdit}>Edit</button>
+                    <button className="m-2 bg-red-500 text-white p-2 rounded" onClick={handleDelete}>Delete</button>
+                    <button className="bg-blue-500 text-white p-2 rounded" onClick={openModal}>Edit</button>
                 </td>
-           </tr> 
-        );
-    }
+            </tr>
+            <Modal
+                isOpen={modalIsOpen}
+                onAfterOpen={afterOpenModal}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="Example Modal"
+            >
+                <CreateExpense closeModal={closeModal} editExpenseItem={expense}/>
+            </Modal>
+        </>
+    );
+    
 }
 export default ExpenseShow;
