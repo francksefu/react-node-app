@@ -1,23 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import { useContext, useEffect } from "react";
+import ExpensesContext from "./context/expenses";
+import ExpensesList from "./components/expenses/ExpensesList";
 
 function App() {
+  const {getExpenses} = useContext(ExpensesContext);
+
+  useEffect(() => {
+    getExpenses();
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App m-4">
+      <h1 className="text-3xl font-bold text-gray-500">
+        Expenses
+      </h1>
+      <ExpensesList />
     </div>
   );
 }
