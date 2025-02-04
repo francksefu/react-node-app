@@ -32,8 +32,8 @@ class Expense {
     }
 
     static delete (id) {
-        let sql = 'DELETE expense WHERE id = ?';
-        connection.query(sql, id, function (error, results, fields) {
+        let sql = 'DELETE FROM expense WHERE id = ?';
+        connection.query(sql, parseInt(id), function (error, results, fields) {
             if (error) throw error;
         });
         return true;

@@ -3,9 +3,10 @@ import ExpensesContext from "../../context/expenses"
 import ExpenseShow from "./ExpenseShow";
 import CreateExpense from "./CreateExpense";
 import Modal from "react-modal";
+import Loading from "../features/Loading";
 
 const ExpensesList = () => {
-    const {expenses} = useContext(ExpensesContext);
+    const {expenses, loading} = useContext(ExpensesContext);
 
     const renderedExpenses = expenses.map((expense) => {
         return <ExpenseShow key={expense.id} expense={expense} />;
@@ -25,6 +26,30 @@ const ExpensesList = () => {
 
     Modal.setAppElement('#root');
     const [modalIsOpen, setIsOpen] = useState(false);
+    const [modalIsOpenLoad, setIsOpenLoad] = useState(true);
+    //
+    const customStylesLoad = {
+        content: {
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          width: '50%',
+          border: '0',
+          overflow: 'hidden',
+          padding: '0 22.5%',
+          marginRight: '-50%',
+          transform: 'translate(-50%, -50%)',
+        },
+      };
+    
+      
+    
+      function closeModalLoad() {
+        setIsOpen(false);
+      }
+
+    //
 
     function openModal() {
         setIsOpen(true);
@@ -37,6 +62,22 @@ const ExpensesList = () => {
     function afterOpenModal() {
         console.log('I am open');
     }
+
+    if (loading) {
+    
+        return (
+          <Modal
+              isOpen={modalIsOpenLoad}
+              onAfterOpen={afterOpenModal}
+              onRequestClose={closeModal}
+              style={customStylesLoad}
+              contentLabel="Example Modal"
+            >
+              <Loading />
+            </Modal>
+        );
+    
+      }
 
     return(
         <>
