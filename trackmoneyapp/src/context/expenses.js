@@ -53,9 +53,9 @@ const Provider = ({ children }) => {
             if (!response.ok) throw new Error('Network response was not good');
             const responseData = await response.json();
             if (responseData) {
-                setExpenses(JSON.parse(responseData));
+                setExpenses(JSON.parse(responseData.expenses));
             }
-            
+            setLoading(false);
             
         } catch (error) {
             console.error('Error occured when creating a new expense : ', error);
@@ -76,10 +76,11 @@ const Provider = ({ children }) => {
             });
             
             if (!response.ok) throw new Error('Network problem');
-
-            const responseData = response.json();
-            setExpenses(JSON.parse(responseData));
-            setLoading(false);
+                const responseData = await response.json();
+                if (responseData) {
+                    setExpenses(JSON.parse(responseData.expenses));
+                }
+                setLoading(false);
         } catch (error) {
             console.error('Error durin delete process: ', error);
         }
@@ -100,8 +101,10 @@ const Provider = ({ children }) => {
             
             if (!response.ok) throw new Error('Network problem');
             
-            const responseData = response.json();
-            setExpenses(JSON.parse(responseData));
+            const responseData = await response.json();
+            if (responseData) {
+                setExpenses(JSON.parse(responseData.expenses));
+            }
             setLoading(false);
         } catch (error) {
             console.error('An error occur in update process');
