@@ -4,13 +4,22 @@ class Expense {
     static expenses;
 
     static insert({date, amount, description, idCategorie}) {
-        let lastId;
-        let expense = {amount, date, description, idCategorie}
-        let query = connection.query('INSERT INTO expense SET ?', expense, function(err, results, fields) {
-            if (err) throw err;
-            lastId = results.insertId;
+        return new Promise((resolve) => {
+            let lastId;
+            let expense = {amount, date, description, idCategorie}
+            let query = connection.query('INSERT INTO expense SET ?', expense, function(err, results, fields) {
+                if (err) throw err;
+                lastId = results.insertId;
+            })
+            let sql = 'SELECT * FROM expense order by id desc';
+            connection.query(sql, function (error, results, fields) {
+                if (error) throw error;
+                resolve(JSON.stringify(results));
+            })
+            
         })
-        return true;
+        
+        
     }
 
     static selectAll() {
@@ -23,20 +32,35 @@ class Expense {
     }
 
     static update({amount, date, description, idCategorie, id}) {
-        let sql = 'UPDATE expense SET amount = ?, date = ?, description = ?, idCategorie = ? WHERE id = ?';
-        let contentUpdate = [amount, date, description, idCategorie, id];
-        connection.query(sql, contentUpdate, function (error, results, fields) {
-            if (error) throw error;
-        });
-        return Expense.expenses;
+        return new Promise((resolve) => {
+            let sql = 'UPDATE expense SET amount = ?, date = ?, description = ?, idCategorie = ? WHERE id = ?';
+            let contentUpdate = [amount, date, description, idCategorie, id];
+            connection.query(sql, contentUpdate, function (error, results, fields) {
+                if (error) throw error;
+            });
+            let sqlReturnData = 'SELECT * FROM expense order by id desc';
+            connection.query(sqlReturnData, function (error, results, fields) {
+                if (error) throw error;
+                resolve(JSON.stringify(results));
+            })
+        })
+        
+        
     }
 
     static delete (id) {
-        let sql = 'DELETE expense WHERE id = ?';
-        connection.query(sql, id, function (error, results, fields) {
-            if (error) throw error;
-        });
-        return true;
+        return new Promise((resolve) => {
+            let sql = 'DELETE FROM expense WHERE id = ?';
+            connection.query(sql, parseInt(id), function (error, results, fields) {
+                if (error) throw error;
+            });
+            let sqlReturnData = 'SELECT * FROM expense order by id desc';
+            connection.query(sqlReturnData, function (error, results, fields) {
+                if (error) throw error;
+                resolve(JSON.stringify(results));
+            })
+        })
+        
     }
 }
 

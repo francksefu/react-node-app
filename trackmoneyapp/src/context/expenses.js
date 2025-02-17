@@ -4,9 +4,11 @@ const ExpensesContext = createContext();
 
 const Provider = ({ children }) => {
     const [expenses, setExpenses] = useState([]);
+    const [loading, setLoading] = useState(true);
     let port = '3001';
     const getExpenses = async () => {
         const url = `http://localhost:${port}/expenses`;
+        setLoading(true);
         try {
             const response = await fetch(url, {
                 method: 'GET',
@@ -19,14 +21,20 @@ const Provider = ({ children }) => {
             const storedExpenses = await response.json();
             //update the expenses
             
-            if (storedExpenses) setExpenses(JSON.parse(storedExpenses.expenses));
+            if (storedExpenses) {
+                setLoading(false);
+                setExpenses(JSON.parse(storedExpenses.expenses));
+            }
+            
         } catch (error) {
+            setLoading(false);
             console.error('Error during the get process : ', error);
         }
     };
 
     const  createExpense = async (date, amount, description, idCategorie) => {
         //call an API to create new expenses
+        setLoading(true);
         const url = `http://localhost:${port}/expenses`;
         try {
             const response = await fetch(url, {
@@ -44,8 +52,11 @@ const Provider = ({ children }) => {
 
             if (!response.ok) throw new Error('Network response was not good');
             const responseData = await response.json();
+            if (responseData) {
+                setExpenses(JSON.parse(responseData.expenses));
+            }
+            setLoading(false);
             
-            setExpenses(JSON.parse(responseData));
         } catch (error) {
             console.error('Error occured when creating a new expense : ', error);
         }
@@ -53,6 +64,7 @@ const Provider = ({ children }) => {
 
     //remove 
     const removeExpense = async (id) => {
+        setLoading(true);
         const url = `http://localhost:${port}/expenses/${id}`;
 
         try {
@@ -64,9 +76,11 @@ const Provider = ({ children }) => {
             });
             
             if (!response.ok) throw new Error('Network problem');
-
-            const responseData = response.json();
-            setExpenses(JSON.parse(responseData));
+                const responseData = await response.json();
+                if (responseData) {
+                    setExpenses(JSON.parse(responseData.expenses));
+                }
+                setLoading(false);
         } catch (error) {
             console.error('Error durin delete process: ', error);
         }
@@ -75,7 +89,7 @@ const Provider = ({ children }) => {
     const changeExpense = async (amount, date, description, idCategorie, id) => {
         const url = `http://localhost:${port}/expenses/${id}`;
         const data = {amount, date, description, idCategorie, id};
-
+        setLoading(true);
         try {
             const response = await fetch(url, {
                 method: 'PUT',
@@ -87,14 +101,17 @@ const Provider = ({ children }) => {
             
             if (!response.ok) throw new Error('Network problem');
             
-            const responseData = response.json();
-            setExpenses(JSON.parse(responseData));
+            const responseData = await response.json();
+            if (responseData) {
+                setExpenses(JSON.parse(responseData.expenses));
+            }
+            setLoading(false);
         } catch (error) {
             console.error('An error occur in update process');
         }
     };
 
-    const shared = {expenses, getExpenses, createExpense, removeExpense, changeExpense};
+    const shared = {expenses, getExpenses, createExpense, removeExpense, changeExpense, loading};
 
     return (
         <ExpensesContext.Provider value={shared}>{children}</ExpensesContext.Provider>

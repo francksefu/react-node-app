@@ -31,8 +31,8 @@ app.get("/expenses", (req, res) => {
 app.put("/expenses/:id", (req, res) => {
   try {
     let expenseItem = req.body;
-    Expense.update(expenseItem);
-    res.json({ expenses: Expense.selectAll() });
+    Expense.update(expenseItem).then((data) => res.status(201).json({message: 'Successfully added', expenses: data }));
+  ;
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
@@ -41,8 +41,8 @@ app.put("/expenses/:id", (req, res) => {
 app.delete("/expenses/:id", (req, res) => {
   try {
     let id = req.params.id;
-    Expense.delete(id);
-    res.json({ expenses: Expense.selectAll() });
+    Expense.delete(id).then((data) => res.status(201).json({message: 'Successfully added', expenses: data }));
+  ;
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
@@ -52,8 +52,8 @@ app.delete("/expenses/:id", (req, res) => {
 //create
 app.post("/expenses", (req, res) => {
   let expenses = (req.body);
-  Expense.insert(expenses);
-  res.json({ expenses: Expense.selectAll() });
+  Expense.insert(expenses).then((data) => res.status(201).json({message: 'Successfully added', expenses: data }));
+  ;
 });
 
 app.get("/api", (req, res) => {

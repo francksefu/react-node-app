@@ -3,10 +3,11 @@ import ExpensesContext from "../../context/expenses"
 import ExpenseShow from "./ExpenseShow";
 import CreateExpense from "./CreateExpense";
 import Modal from "react-modal";
+import Loading from "../features/Loading";
 
 const ExpensesList = () => {
-    const {expenses} = useContext(ExpensesContext);
-
+    const {expenses, loading} = useContext(ExpensesContext);
+    let totalExenpenses = expenses.reduce((previous, current) => previous + current.amount, 0);
     const renderedExpenses = expenses.map((expense) => {
         return <ExpenseShow key={expense.id} expense={expense} />;
     });
@@ -25,6 +26,24 @@ const ExpensesList = () => {
 
     Modal.setAppElement('#root');
     const [modalIsOpen, setIsOpen] = useState(false);
+    const [modalIsOpenLoad, setIsOpenLoad] = useState(true);
+    //
+    const customStylesLoad = {
+        content: {
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          width: '50%',
+          border: '0',
+          overflow: 'hidden',
+          padding: '0 22.5%',
+          marginRight: '-50%',
+          transform: 'translate(-50%, -50%)',
+        },
+      };
+
+    //
 
     function openModal() {
         setIsOpen(true);
@@ -38,9 +57,26 @@ const ExpensesList = () => {
         console.log('I am open');
     }
 
+    if (loading) {
+    
+        return (
+          <Modal
+              isOpen={modalIsOpenLoad}
+              onAfterOpen={afterOpenModal}
+              onRequestClose={closeModal}
+              style={customStylesLoad}
+              contentLabel="Example Modal"
+            >
+              <Loading />
+            </Modal>
+        );
+    
+      }
+
     return(
         <>
-            <button className=" mx-auto m-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={openModal}>Open Modal</button>
+            <button className=" mx-auto m-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={openModal}>Create new Expenses</button>
+            <br/><span className="bg-green-700 text-white m-2 p-2">Total : {totalExenpenses} USD</span>
             <div className="p-6 px-0 overflow-scroll">
                 <table className="w-full text-left table-auto min-w-max">
                 <thead>
