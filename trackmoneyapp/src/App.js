@@ -11,8 +11,6 @@ function App() {
     getExpenses();
   }, []);
 
-  const [modalIsOpen, setIsOpen] = useState(true);
-
   
 
     return (

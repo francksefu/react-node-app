@@ -11,7 +11,11 @@ app.use(express.json());
 
 //index or get all
 app.get("/categories", (req, res) => {
-  res.json({ categories: Categorie.selectAll() });
+  try {
+    res.json({ categories: (Categorie.selectAll()) });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
 });
 
 //create
@@ -24,7 +28,12 @@ app.post("/categories", (req, res) => {
 
 //index or get all
 app.get("/expenses", (req, res) => {
-  res.json({ expenses: (Expense.selectAll()) });
+  try {
+    res.json({ expenses: (Expense.selectAll()) });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+  
 });
 //update
 
@@ -51,9 +60,12 @@ app.delete("/expenses/:id", (req, res) => {
 
 //create
 app.post("/expenses", (req, res) => {
-  let expenses = (req.body);
-  Expense.insert(expenses).then((data) => res.status(201).json({message: 'Successfully added', expenses: data }));
-  ;
+  try {
+    let expenses = (req.body);
+    Expense.insert(expenses).then((data) => res.status(201).json({message: 'Successfully added', expenses: data }));
+  } catch(error) {
+    res.status(500).send({ message: error.message });
+  }
 });
 
 app.get("/api", (req, res) => {
