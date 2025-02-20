@@ -2,7 +2,7 @@ import  { createContext, useState } from 'react';
 
 const CategoriesContext = createContext();
 
-const Provider = ({ children }) => {
+const ProviderC = ({ children }) => {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     let port = '3001';
@@ -118,4 +118,4 @@ const Provider = ({ children }) => {
 };
 
 export default CategoriesContext;
-export {Provider};
+export {ProviderC};

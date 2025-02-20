@@ -1,7 +1,7 @@
 import { useContext, useState } from "react"
 
 import Modal from "react-modal";
-import Createcategorie from "./Createcategorie";
+import CreateCategorie from "./CreateAndEditCategorie";
 import WarningDeletecategorie from "./WarningDeleteCategorie";
 
 const CategorieShow = ({categorie}) => {
@@ -89,7 +89,7 @@ const CategorieShow = ({categorie}) => {
                 style={customStyles}
                 contentLabel="Example Modal"
             >
-                <Createcategorie closeModal={closeModal} editcategorieItem={categorie}/>
+                <CreateCategorie closeModal={closeModal} editcategorieItem={categorie}/>
             </Modal>
 
             <Modal

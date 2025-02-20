@@ -1,9 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import ExpensesContext from "./context/expenses";
 import ExpensesList from "./components/expenses/ExpensesList";
-import Loading from "./components/features/Loading";
-import Modal from "react-modal";
-
 function App() {
   const {getExpenses, loading} = useContext(ExpensesContext);
 

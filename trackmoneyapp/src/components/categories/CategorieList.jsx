@@ -1,11 +1,11 @@
 import { useContext, useState } from "react"
 import CategoriesContext from "../../context/categories"
 import CategorieShow from "./CategorieShow";
-import CreateCategorie from "./CreateCategorie";
+import CreateCategorie from "./CreateAndEditCategorie";
 import Modal from "react-modal";
 import Loading from "../features/Loading";
 
-const categoriesList = () => {
+const CategoriesList = () => {
     const {categories, loading} = useContext(CategoriesContext);
     const renderedCategories = categories.map((categorie) => {
         return <CategorieShow key={categorie.id} categorie={categorie} />;
@@ -120,4 +120,4 @@ const categoriesList = () => {
     );
 }
 
-export default categoriesList;
+export default CategoriesList;
