@@ -31,7 +31,7 @@ class Categorie {
         return Categorie.categories;
     }
 
-    static update({name, isHaveLimit, amountLimit}) {
+    static update({name, isHaveLimit, amountLimit, id}) {
         return new Promise((resolve) => {
             let sql = 'UPDATE categorie SET name = ?, isHaveLimit = ?, amountLimit = ? WHERE id = ?';
             let contentUpdate = [name, isHaveLimit, amountLimit, id];

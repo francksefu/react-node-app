@@ -62,7 +62,7 @@ const CategorieShow = ({categorie}) => {
                 </td>
                 <td className="p-4 border-b border-blue-gray-50">
                     <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                    <span className={categorie.isHaveLimit ? "bg-green-700 text-white rounded" : "bg-slate-400 text-white rounded"}>{categorie.isHaveLimit}</span>
+                    <span className={categorie.isHaveLimit ? "bg-green-700 text-white rounded p-2" : "bg-slate-700 text-white rounded p-2"}>{categorie.isHaveLimit ? "TRUE" : "FALSE"}</span>
                     </p>
                 </td>
                 {categorie.isHaveLimit ? 
@@ -72,7 +72,7 @@ const CategorieShow = ({categorie}) => {
                     </p>
                 </td> : <td className="p-4 border-b border-blue-gray-50">
                     <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                    {'No amount Limit set for this categorie'}
+                    {'No Limit set'}
                     </p>
                 </td>
                 }
@@ -89,7 +89,7 @@ const CategorieShow = ({categorie}) => {
                 style={customStyles}
                 contentLabel="Example Modal"
             >
-                <CreateCategorie closeModal={closeModal} editcategorieItem={categorie}/>
+                <CreateCategorie closeModal={closeModal} editCategorieItem={categorie}/>
             </Modal>
 
             <Modal

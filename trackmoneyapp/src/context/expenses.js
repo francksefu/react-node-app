@@ -6,8 +6,9 @@ const Provider = ({ children }) => {
     const [expenses, setExpenses] = useState([]);
     const [loading, setLoading] = useState(true);
     let port = '3001';
+    let baseUrl = 'http://192.168.1.99';
     const getExpenses = async () => {
-        const url = `http://localhost:${port}/expenses`;
+        const url = `${baseUrl}:${port}/expenses`;
         setLoading(true);
         try {
             const response = await fetch(url, {
@@ -35,7 +36,7 @@ const Provider = ({ children }) => {
     const  createExpense = async (date, amount, description, idCategorie) => {
         //call an API to create new expenses
         setLoading(true);
-        const url = `http://localhost:${port}/expenses`;
+        const url = `${baseUrl}:${port}/expenses`;
         try {
             const response = await fetch(url, {
                 method: 'POST',
@@ -65,7 +66,7 @@ const Provider = ({ children }) => {
     //remove 
     const removeExpense = async (id) => {
         setLoading(true);
-        const url = `http://localhost:${port}/expenses/${id}`;
+        const url = `${baseUrl}:${port}/expenses/${id}`;
 
         try {
             const response = await fetch(url, {
@@ -87,7 +88,7 @@ const Provider = ({ children }) => {
     };
 
     const changeExpense = async (amount, date, description, idCategorie, id) => {
-        const url = `http://localhost:${port}/expenses/${id}`;
+        const url = `${baseUrl}:${port}/expenses/${id}`;
         const data = {amount, date, description, idCategorie, id};
         setLoading(true);
         try {

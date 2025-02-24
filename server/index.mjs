@@ -20,9 +20,32 @@ app.get("/categories", (req, res) => {
 
 //create
 app.post("/categories", (req, res) => {
-  let categorie = req.body;
-  Categorie.insert(categorie);
-  res.send({ message: 'New categorie was added', });
+  try {
+    let categorie = req.body;
+    Categorie.insert(categorie).then((data) => res.status(201).json({message: 'Successfully added', categories: data }));
+  } catch(error) {
+    res.status(500).send({ message: error.message });
+  }
+});
+
+app.put("/categories/:id", (req, res) => {
+  try {
+    let categorieItem = req.body;
+    Categorie.update(categorieItem).then((data) => res.status(201).json({message: 'Successfully added', categories: data }));
+  ;
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+});
+
+app.delete("/categories/:id", (req, res) => {
+  try {
+    let id = req.params.id;
+    Categorie.delete(id).then((data) => res.status(201).json({message: 'Successfully added', categories: data }));
+  ;
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
 });
 
 
