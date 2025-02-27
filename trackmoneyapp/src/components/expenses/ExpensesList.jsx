@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useState, useEffect } from "react"
 import ExpensesContext from "../../context/expenses"
 import ExpenseShow from "./ExpenseShow";
 import CreateExpense from "./CreateExpense";
@@ -6,7 +6,10 @@ import Modal from "react-modal";
 import Loading from "../features/Loading";
 
 const ExpensesList = () => {
-    const {expenses, loading} = useContext(ExpensesContext);
+    const {expenses, loading, getExpenses} = useContext(ExpensesContext);
+    useEffect(() => {
+        getExpenses();
+    }, []);
     let totalExenpenses = expenses.reduce((previous, current) => previous + current.amount, 0);
     const renderedExpenses = expenses.map((expense) => {
         return <ExpenseShow key={expense.id} expense={expense} />;

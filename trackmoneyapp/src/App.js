@@ -4,12 +4,6 @@ import ExpensesList from "./components/expenses/ExpensesList";
 function App() {
   const {getExpenses, loading} = useContext(ExpensesContext);
 
-  useEffect(() => {
-    getExpenses();
-  }, []);
-
-  
-
     return (
       <>
         <div className="App m-4">

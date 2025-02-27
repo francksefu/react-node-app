@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useState, useEffect } from "react"
 import CategoriesContext from "../../context/categories"
 import CategorieShow from "./CategorieShow";
 import CreateCategorie from "./CreateAndEditCategorie";
@@ -6,7 +6,11 @@ import Modal from "react-modal";
 import Loading from "../features/Loading";
 
 const CategoriesList = () => {
-    const {categories, loading} = useContext(CategoriesContext);
+    
+    const {getCategories, categories, loading} = useContext(CategoriesContext);
+    useEffect(() => {
+        getCategories();
+    }, []);
     const renderedCategories = categories.map((categorie) => {
         return <CategorieShow key={categorie.id} categorie={categorie} />;
     });

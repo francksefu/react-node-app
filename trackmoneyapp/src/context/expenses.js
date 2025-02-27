@@ -6,7 +6,7 @@ const Provider = ({ children }) => {
     const [expenses, setExpenses] = useState([]);
     const [loading, setLoading] = useState(true);
     let port = '3001';
-    let baseUrl = 'http://192.168.1.99';
+    let baseUrl = 'http://localhost';
     const getExpenses = async () => {
         const url = `${baseUrl}:${port}/expenses`;
         setLoading(true);

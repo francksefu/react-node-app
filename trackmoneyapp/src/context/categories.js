@@ -6,7 +6,7 @@ const ProviderC = ({ children }) => {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     let port = '3001';
-    let baseUrl = 'http://192.168.1.99';
+    let baseUrl = 'http://localhost';
     const getCategories = async () => {
         const url = `${baseUrl}:${port}/categories`;
         setLoading(true);

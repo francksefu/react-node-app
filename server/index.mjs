@@ -12,6 +12,7 @@ app.use(express.json());
 //index or get all
 app.get("/categories", (req, res) => {
   try {
+    console.log('Categorie is coming ...');
     res.json({ categories: (Categorie.selectAll()) });
   } catch (error) {
     res.status(500).send({ message: error.message });
