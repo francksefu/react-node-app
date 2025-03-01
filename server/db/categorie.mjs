@@ -22,6 +22,12 @@ class Categorie {
         
     }
 
+    /**
+     * This function retrieves all categories from the database and returns them as a JSON string.
+     * The categories are sorted in descending order by their ID.
+     *
+     * @returns {string} - A JSON string containing all categories.
+     */
     static selectAll() {
         let sql = 'SELECT * FROM categorie order by id desc';
         connection.query(sql, function (error, results, fields) {

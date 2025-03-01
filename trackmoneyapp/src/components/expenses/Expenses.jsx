@@ -14,7 +14,6 @@ function Expense() {
   
       return (
         <>
-          
             <div className="App m-4">
                 <h1 className="text-3xl font-bold text-gray-500">
                 Expenses

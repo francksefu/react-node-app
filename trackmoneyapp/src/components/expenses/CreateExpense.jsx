@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import ExpensesContext from "../../context/expenses";
 import CategoriesContext from "../../context/categories";
 import Select from "react-select";
+import AsyncSelect from 'react-select/async';
 
 const CreateExpense = ({closeModal ,editExpenseItem = null}) => {
     const [id, setId] = useState(editExpenseItem ? editExpenseItem.id : null);
