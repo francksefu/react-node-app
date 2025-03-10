@@ -1,7 +1,9 @@
 import express from "express";
 import Expense from "./db/Expense.mjs";
 import Categorie from "./db/categorie.mjs";
+import User from "./db/User.mjs";
 import cors from "cors";
+import jwt from 'jsonwebtoken';
 
 const PORT = process.env.PORT || 3001;
 
@@ -95,6 +97,12 @@ app.post("/expenses", (req, res) => {
 app.get("/api", (req, res) => {
     res.json({ message: 'Hello franck' });
 });
+
+app.post('/signup', async (req, res) => {
+  const {username, password} = req.body;
+  const hashedPassword = await bycrypt.hash(password, 8);
+  User.insert(username, hashedPassword);
+})
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
