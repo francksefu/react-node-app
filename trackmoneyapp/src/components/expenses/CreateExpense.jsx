@@ -1,15 +1,23 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import ExpensesContext from "../../context/expenses";
+import CategoriesContext from "../../context/categories";
+import Select from "react-select";
+import AsyncSelect from 'react-select/async';
 
 const CreateExpense = ({closeModal ,editExpenseItem = null}) => {
     const [id, setId] = useState(editExpenseItem ? editExpenseItem.id : null);
     const [dateT, setDate] = useState(editExpenseItem ? editExpenseItem.date.slice(0, 16) : new Date().toISOString().slice(0, 16));
     const [amount, setAmount] = useState(editExpenseItem ? editExpenseItem.amount : 0);
     const [description, setDescription] = useState(editExpenseItem ? editExpenseItem.description : '');
-    const [idCategorie, setIdCategorie] = useState(editExpenseItem ? editExpenseItem.idCategorie : '1');
-
+    const [idCategorie, setIdCategorie] = useState(editExpenseItem ? editExpenseItem.idCategorie : null);
     const { createExpense, changeExpense } = useContext(ExpensesContext);
+    const { getCategories, categories } = useContext(CategoriesContext);
+    useEffect(() => {
+        getCategories();
+    }, []);
     
+    const options = categories.map((categori) => {return {value: categori.id, label: categori.name}})
+    console.log(options);
     const handleSubmit = (e) => {
         e.preventDefault();
         if (editExpenseItem) {
@@ -33,6 +41,14 @@ const CreateExpense = ({closeModal ,editExpenseItem = null}) => {
                     value={dateT}
                     onChange={(e) => setDate(e.target.value)}
                 />
+                <div>
+                    <label>Set categorie</label>
+                    <Select
+                        value={options.filter((categ) => categ.value == idCategorie)[0]}
+                        onChange={(e) => {setIdCategorie(e.value);}}
+                        options={options}
+                    />
+                </div>
                 <label htmlFor="amount" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount</label>
                 <input
                     type="number"

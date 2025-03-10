@@ -11,20 +11,53 @@ app.use(express.json());
 
 //index or get all
 app.get("/categories", (req, res) => {
-  res.json({ categories: Categorie.selectAll() });
+  try {
+    console.log('Categorie is coming ...');
+    res.json({ categories: (Categorie.selectAll()) });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
 });
 
 //create
 app.post("/categories", (req, res) => {
-  let categorie = req.body;
-  Categorie.insert(categorie);
-  res.send({ message: 'New categorie was added', });
+  try {
+    let categorie = req.body;
+    Categorie.insert(categorie).then((data) => res.status(201).json({message: 'Successfully added', categories: data }));
+  } catch(error) {
+    res.status(500).send({ message: error.message });
+  }
+});
+
+app.put("/categories/:id", (req, res) => {
+  try {
+    let categorieItem = req.body;
+    Categorie.update(categorieItem).then((data) => res.status(201).json({message: 'Successfully added', categories: data }));
+  ;
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+});
+
+app.delete("/categories/:id", (req, res) => {
+  try {
+    let id = req.params.id;
+    Categorie.delete(id).then((data) => res.status(201).json({message: 'Successfully added', categories: data }));
+  ;
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
 });
 
 
 //index or get all
 app.get("/expenses", (req, res) => {
-  res.json({ expenses: (Expense.selectAll()) });
+  try {
+    res.json({ expenses: (Expense.selectAll()) });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+  
 });
 //update
 
@@ -51,9 +84,12 @@ app.delete("/expenses/:id", (req, res) => {
 
 //create
 app.post("/expenses", (req, res) => {
-  let expenses = (req.body);
-  Expense.insert(expenses).then((data) => res.status(201).json({message: 'Successfully added', expenses: data }));
-  ;
+  try {
+    let expenses = (req.body);
+    Expense.insert(expenses).then((data) => res.status(201).json({message: 'Successfully added', expenses: data }));
+  } catch(error) {
+    res.status(500).send({ message: error.message });
+  }
 });
 
 app.get("/api", (req, res) => {

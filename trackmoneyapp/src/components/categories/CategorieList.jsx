@@ -1,20 +1,19 @@
 import { useContext, useState, useEffect } from "react"
-import ExpensesContext from "../../context/expenses"
-import ExpenseShow from "./ExpenseShow";
-import CreateExpense from "./CreateExpense";
+import CategoriesContext from "../../context/categories"
+import CategorieShow from "./CategorieShow";
+import CreateCategorie from "./CreateAndEditCategorie";
 import Modal from "react-modal";
 import Loading from "../features/Loading";
 
-const ExpensesList = () => {
-    const {expenses, loading, getExpenses} = useContext(ExpensesContext);
+const CategoriesList = () => {
+    
+    const {getCategories, categories, loading} = useContext(CategoriesContext);
     useEffect(() => {
-        getExpenses();
+        getCategories();
     }, []);
-    let totalExenpenses = expenses.reduce((previous, current) => previous + current.amount, 0);
-    const renderedExpenses = expenses.map((expense) => {
-        return <ExpenseShow key={expense.id} expense={expense} />;
+    const renderedCategories = categories.map((categorie) => {
+        return <CategorieShow key={categorie.id} categorie={categorie} />;
     });
-
     const customStyles = {
         content: {
           top: '50%',
@@ -78,32 +77,27 @@ const ExpensesList = () => {
 
     return(
         <>
-            <button className=" mx-auto m-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={openModal}>Create new Expenses</button>
-            <br/><span className="bg-green-700 text-white m-2 p-2">Total : {totalExenpenses} USD</span>
+            <button className=" mx-auto m-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={openModal}>Create new categories</button>
             <div className="p-6 px-0 overflow-scroll">
                 <table className="w-full text-left table-auto min-w-max">
                 <thead>
                     <tr>
                         <th className="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50">
                             <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-                            Date
+                            Name
                             </p>
                         </th>
                         <th className="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50">
                             <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-                            Amount
+                            Limit budget?
                             </p>
                         </th>
                         <th className="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50">
                             <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-                            Description
+                            Amount limit budget
                             </p>
                         </th>
-                        <th className="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50">
-                            <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-                            Categorie
-                            </p>
-                        </th>
+                        
                         <th className="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50">
                             <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
                             Action
@@ -112,7 +106,7 @@ const ExpensesList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {renderedExpenses}
+                    {renderedCategories}
                 </tbody>
                 </table>
             </div>
@@ -124,10 +118,10 @@ const ExpensesList = () => {
                 style={customStyles}
                 contentLabel="Example Modal"
             >
-                <CreateExpense closeModal={closeModal}/>
+                <CreateCategorie closeModal={closeModal}/>
             </Modal>
         </>
     );
 }
 
-export default ExpensesList;
+export default CategoriesList;

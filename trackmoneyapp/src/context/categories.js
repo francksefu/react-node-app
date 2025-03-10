@@ -1,14 +1,14 @@
 import  { createContext, useState } from 'react';
 
-const ExpensesContext = createContext();
+const CategoriesContext = createContext();
 
-const Provider = ({ children }) => {
-    const [expenses, setExpenses] = useState([]);
+const ProviderC = ({ children }) => {
+    const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     let port = '3001';
     let baseUrl = 'http://localhost';
-    const getExpenses = async () => {
-        const url = `${baseUrl}:${port}/expenses`;
+    const getCategories = async () => {
+        const url = `${baseUrl}:${port}/categories`;
         setLoading(true);
         try {
             const response = await fetch(url, {
@@ -19,12 +19,12 @@ const Provider = ({ children }) => {
             });
             if (!response.ok) throw new Error('Network was not good');
 
-            const storedExpenses = await response.json();
-            //update the expenses
+            const storedCategories = await response.json();
+            //update the categories
             
-            if (storedExpenses) {
+            if (storedCategories) {
                 setLoading(false);
-                setExpenses(JSON.parse(storedExpenses.expenses));
+                setCategories(JSON.parse(storedCategories.categories));
             }
             
         } catch (error) {
@@ -33,10 +33,10 @@ const Provider = ({ children }) => {
         }
     };
 
-    const  createExpense = async (date, amount, description, idCategorie) => {
-        //call an API to create new expenses
+    const  createCategorie = async (name, isHaveLimit, amountLimit) => {
+        //call an API to create new categories
         setLoading(true);
-        const url = `${baseUrl}:${port}/expenses`;
+        const url = `${baseUrl}:${port}/categories`;
         try {
             const response = await fetch(url, {
                 method: 'POST',
@@ -44,29 +44,28 @@ const Provider = ({ children }) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    'amount' : amount, 
-                    'date' : date, 
-                    'description' : description, 
-                    'idCategorie' : idCategorie,
+                    'name' : name,
+                    'isHaveLimit' : isHaveLimit,
+                    'amountLimit' : amountLimit,
                 }),
             });
 
             if (!response.ok) throw new Error('Network response was not good');
             const responseData = await response.json();
             if (responseData) {
-                setExpenses(JSON.parse(responseData.expenses));
+                setCategories(JSON.parse(responseData.categories));
             }
             setLoading(false);
             
         } catch (error) {
-            console.error('Error occured when creating a new expense : ', error);
+            console.error('Error occured when creating a new categorie : ', error);
         }
     };
 
     //remove 
-    const removeExpense = async (id) => {
+    const removeCategorie = async (id) => {
         setLoading(true);
-        const url = `${baseUrl}:${port}/expenses/${id}`;
+        const url = `${baseUrl}:${port}/categories/${id}`;
 
         try {
             const response = await fetch(url, {
@@ -79,7 +78,7 @@ const Provider = ({ children }) => {
             if (!response.ok) throw new Error('Network problem');
                 const responseData = await response.json();
                 if (responseData) {
-                    setExpenses(JSON.parse(responseData.expenses));
+                    setCategories(JSON.parse(responseData.categories));
                 }
                 setLoading(false);
         } catch (error) {
@@ -87,9 +86,9 @@ const Provider = ({ children }) => {
         }
     };
 
-    const changeExpense = async (amount, date, description, idCategorie, id) => {
-        const url = `${baseUrl}:${port}/expenses/${id}`;
-        const data = {amount, date, description, idCategorie, id};
+    const changeCategorie = async (name, isHaveLimit, amountLimit, id) => {
+        const url = `${baseUrl}:${port}/categories/${id}`;
+        const data = {name, isHaveLimit, amountLimit, id};
         setLoading(true);
         try {
             const response = await fetch(url, {
@@ -104,7 +103,7 @@ const Provider = ({ children }) => {
             
             const responseData = await response.json();
             if (responseData) {
-                setExpenses(JSON.parse(responseData.expenses));
+                setCategories(JSON.parse(responseData.categories));
             }
             setLoading(false);
         } catch (error) {
@@ -112,12 +111,12 @@ const Provider = ({ children }) => {
         }
     };
 
-    const shared = {expenses, getExpenses, createExpense, removeExpense, changeExpense, loading};
+    const shared = {categories, getCategories, createCategorie, removeCategorie, changeCategorie, loading};
 
     return (
-        <ExpensesContext.Provider value={shared}>{children}</ExpensesContext.Provider>
+        <CategoriesContext.Provider value={shared}>{children}</CategoriesContext.Provider>
     )
 };
 
-export default ExpensesContext;
-export {Provider};
+export default CategoriesContext;
+export {ProviderC};

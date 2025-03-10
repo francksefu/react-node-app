@@ -1,10 +1,10 @@
 import { useContext, useState } from "react"
 
 import Modal from "react-modal";
-import CreateExpense from "./CreateExpense";
-import WarningDeleteExpense from "./WarningDeleteExpense";
+import CreateCategorie from "./CreateAndEditCategorie";
+import WarningDeletecategorie from "./WarningDeleteCategorie";
 
-const ExpenseShow = ({expense}) => {
+const CategorieShow = ({categorie}) => {
 
     const [modalIsOpen, setIsOpen] = useState(false);
     const [modalOfDeletion, setModalOfDeletion] = useState(false);
@@ -57,24 +57,26 @@ const ExpenseShow = ({expense}) => {
             <tr>
                 <td className="p-4 border-b border-blue-gray-50">
                     <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                    {expense.date}
+                    {categorie.name}
                     </p>
                 </td>
                 <td className="p-4 border-b border-blue-gray-50">
                     <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                    {expense.amount}
+                    <span className={categorie.isHaveLimit ? "bg-green-700 text-white rounded p-2" : "bg-slate-700 text-white rounded p-2"}>{categorie.isHaveLimit ? "TRUE" : "FALSE"}</span>
                     </p>
                 </td>
+                {categorie.isHaveLimit ? 
                 <td className="p-4 border-b border-blue-gray-50">
                     <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                    {expense.description}
+                    {categorie.amountLimit}
                     </p>
-                </td>
-                <td className="p-4 border-b border-blue-gray-50">
+                </td> : <td className="p-4 border-b border-blue-gray-50">
                     <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                    {expense.idCategorie}
+                    {'No Limit set'}
                     </p>
                 </td>
+                }
+                
                 <td className="p-4 border-b border-blue-gray-50">
                     <button className="m-2 bg-red-500 text-white p-2 rounded" onClick={openModalOfDeletion}>Delete</button>
                     <button className="bg-blue-500 text-white p-2 rounded" onClick={openModal}>Edit</button>
@@ -87,7 +89,7 @@ const ExpenseShow = ({expense}) => {
                 style={customStyles}
                 contentLabel="Example Modal"
             >
-                <CreateExpense closeModal={closeModal} editExpenseItem={expense}/>
+                <CreateCategorie closeModal={closeModal} editCategorieItem={categorie}/>
             </Modal>
 
             <Modal
@@ -97,10 +99,10 @@ const ExpenseShow = ({expense}) => {
                 style={customStylesDeletion}
                 contentLabel="Example"
             >
-                <WarningDeleteExpense closeModalOfDeletion={closeModalOfDeletion} expenseToDelete={expense}/>
+                <WarningDeletecategorie closeModalOfDeletion={closeModalOfDeletion} categorieToDelete={categorie}/>
             </Modal>
         </>
     );
     
 }
-export default ExpenseShow;
+export default CategorieShow;
