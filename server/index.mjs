@@ -4,6 +4,7 @@ import Categorie from "./db/categorie.mjs";
 import User from "./db/User.mjs";
 import cors from "cors";
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 
 const PORT = process.env.PORT || 3001;
 
@@ -11,6 +12,60 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) return res.status(401).send('Token required');
+
+  jwt.verify(token, secretKey, (err, user) => {
+    if (err) return res.status(403).send('Invalid or expired token');
+    req.user = user;
+    next();
+  });
+};
+
+app.post('/signup', async (req, res) => {
+  const { username, password } = req.body;
+  console.log(req.body);
+
+  // Hash password
+  console.log(password);
+  const hashedPassword = await bcrypt.hash(password, 8);
+
+  // Store user
+  User.insert({username: username, password: hashedPassword});
+  console.log('great');
+  /*const user = User.selectAll().find(u => u.username === username);
+
+  if (!user || !(await bcrypt.compare(password, user.password))) {
+    return res.status(401).send('Invalid credentials');
+  }
+
+  // Generate token
+  const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '30m' });
+
+  res.status(200).send({ token });
+  //res.status(201).send('User created');*/
+});
+
+const secretKey = 'your_secret_key';
+
+// Login route
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+  const user = User.selectAll().find(u => u.username === username);
+
+  if (!user || !(await bcrypt.compare(password, user.password))) {
+    return res.status(401).send('Invalid credentials');
+  }
+
+  // Generate token
+  const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '30m' });
+
+  res.status(200).send({ token });
+});
 //index or get all
 app.get("/categories", (req, res) => {
   try {

@@ -4,8 +4,11 @@ import ExpenseShow from "./ExpenseShow";
 import CreateExpense from "./CreateExpense";
 import Modal from "react-modal";
 import Loading from "../features/Loading";
+import useToken from "../../App/useToken";
+import SignUp from "../users/SignUp";
 
 const ExpensesList = () => {
+    const {token, setToken} = useToken();
     const {expenses, loading, getExpenses} = useContext(ExpensesContext);
     useEffect(() => {
         getExpenses();
@@ -59,7 +62,9 @@ const ExpensesList = () => {
     function afterOpenModal() {
         console.log('I am open');
     }
-
+    if (!token) {
+        return <SignUp setToken={setToken} />;
+    }
     if (loading) {
     
         return (

@@ -10,7 +10,7 @@ class User {
             let query = connection.query('INSERT INTO user SET ?', user, function(err, results, fields) {
                 if (err) throw err;
                 lastId = results.insertId;
-                return lastId
+                resolve(lastId);
             })
             
         })
