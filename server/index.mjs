@@ -36,7 +36,17 @@ app.post('/signup', async (req, res) => {
 
   // Store user
   User.insert({username: username, password: hashedPassword});
-  console.log('great');
+  
+  User.selectAll().then(async (data) => {
+    
+    const user = JSON.parse(data).find(u => u.username == username);
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).send('Invalid credentials');
+    }
+    const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '10m' });
+    console.log(token)
+    res.status(200).send({ token : token });
+  });
   /*const user = User.selectAll().find(u => u.username === username);
 
   if (!user || !(await bcrypt.compare(password, user.password))) {

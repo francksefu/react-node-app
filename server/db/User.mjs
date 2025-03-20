@@ -18,19 +18,17 @@ class User {
         
     }
 
-    /**
-     * This function retrieves all categories from the database and returns them as a JSON string.
-     * The categories are sorted in descending order by their ID.
-     *
-     * @returns {string} - A JSON string containing all categories.
-     */
+   
     static selectAll() {
         let sql = 'SELECT * FROM user order by id desc';
-        connection.query(sql, function (error, results, fields) {
-            if (error) throw error;
-            User.user = JSON.stringify(results);
+        return new Promise((resolve) => {
+            let query = connection.query(sql, function (error, results, fields) {
+                if (error) throw error;
+                resolve(JSON.stringify(results));
+            })
+            
         })
-        return User.user;
+        
     }
 
     static update({username, password, id}) {

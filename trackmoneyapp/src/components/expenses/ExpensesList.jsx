@@ -6,9 +6,10 @@ import Modal from "react-modal";
 import Loading from "../features/Loading";
 import useToken from "../../App/useToken";
 import SignUp from "../users/SignUp";
+import UsersContext from "../../context/user";
 
 const ExpensesList = () => {
-    const {token, setToken} = useToken();
+    const {token} = useContext(UsersContext);
     const {expenses, loading, getExpenses} = useContext(ExpensesContext);
     useEffect(() => {
         getExpenses();
@@ -62,9 +63,13 @@ const ExpensesList = () => {
     function afterOpenModal() {
         console.log('I am open');
     }
+    
     if (!token) {
-        return <SignUp setToken={setToken} />;
+        return <SignUp/>;
+    } else {
+        console.log('gg : '+token)
     }
+
     if (loading) {
     
         return (

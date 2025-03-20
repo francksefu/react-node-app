@@ -1,6 +1,14 @@
+import { useContext } from "react";
 import { Link } from "react-router";
+import UsersContext from "../../context/user";
 
 const Navbar = () => {
+    const {token, setToken} = useContext(UsersContext);
+    const signOut = () => {
+        sessionStorage.setItem('token', '');
+        setToken(null);
+
+    }
     return (
         <>
         <nav className="bg-gray-800">
@@ -76,7 +84,7 @@ const Navbar = () => {
                         
                         <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-0">Your Profile</a>
                         <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-1">Settings</a>
-                        <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2">Sign out</a>
+                        <a href="#" onClick={signOut} className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="user-menu-item-2">Sign out</a>
                     </div>
                     </div>
                 </div>
