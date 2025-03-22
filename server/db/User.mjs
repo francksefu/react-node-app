@@ -3,7 +3,7 @@ import connection from "./config.mjs"
 class User {
     static user;
 
-    static insert({username, password}) {
+    static insert({username, password, names, dateT}) {
         return new Promise((resolve) => {
             let lastId;
             let user = {username, password}

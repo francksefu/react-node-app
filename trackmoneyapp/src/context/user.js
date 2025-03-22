@@ -7,7 +7,7 @@ const ProviderU = ({ children }) => {
     const [loading, setLoading] = useState(true);
     let port = '3001';
     let baseUrl = 'http://localhost';
-    const signUser = async ({username, password}, url) => {
+    const signUser = async ({username, password, names = null, dateT = null}, url) => {
         setLoading(true);
         try {
             const response = await fetch(url, {
@@ -15,7 +15,7 @@ const ProviderU = ({ children }) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({username, password}),
+                body: JSON.stringify({username, password, names, dateT}),
             });
 
             if (!response.ok) throw new Error('Network response was not good');

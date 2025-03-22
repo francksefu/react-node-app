@@ -27,7 +27,7 @@ const authenticateToken = (req, res, next) => {
 };
 
 app.post('/signup', async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, names, dateT } = req.body;
   console.log(req.body);
 
   // Hash password
@@ -35,7 +35,7 @@ app.post('/signup', async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 8);
 
   // Store user
-  User.insert({username: username, password: hashedPassword});
+  User.insert({username: username, password: hashedPassword, names, dateT});
   
   User.selectAll().then(async (data) => {
     
@@ -47,17 +47,26 @@ app.post('/signup', async (req, res) => {
     console.log(token)
     res.status(200).send({ token : token });
   });
-  /*const user = User.selectAll().find(u => u.username === username);
+});
 
-  if (!user || !(await bcrypt.compare(password, user.password))) {
-    return res.status(401).send('Invalid credentials');
-  }
+app.post('/signin', async (req, res) => {
+  const { username, password, names, dateT } = req.body;
+  console.log(req.body);
 
-  // Generate token
-  const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '30m' });
-
-  res.status(200).send({ token });
-  //res.status(201).send('User created');*/
+  // Hash password
+  console.log(password);
+  const hashedPassword = await bcrypt.hash(password, 8);
+  
+  User.selectAll().then(async (data) => {
+    
+    const user = JSON.parse(data).find(u => u.username == username);
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).send('Invalid credentials');
+    }
+    const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '10m' });
+    console.log(token)
+    res.status(200).send({ token : token });
+  });
 });
 
 const secretKey = 'your_secret_key';
