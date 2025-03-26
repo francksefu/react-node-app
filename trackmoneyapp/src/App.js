@@ -10,7 +10,7 @@ function App() {
         <Navbar />
         <div className="App m-4">
           <h1 className="text-3xl font-bold text-gray-500">
-            Expenses1
+            Expenses
           </h1>
           <ExpensesList />
         </div>

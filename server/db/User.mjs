@@ -6,7 +6,7 @@ class User {
     static insert({username, password, names, dateT}) {
         return new Promise((resolve) => {
             let lastId;
-            let user = {username, password}
+            let user = {username, password, names, dateT}
             let query = connection.query('INSERT INTO user SET ?', user, function(err, results, fields) {
                 if (err) throw err;
                 lastId = results.insertId;

@@ -5,7 +5,7 @@ import CreateExpense from "./CreateExpense";
 import Modal from "react-modal";
 import Loading from "../features/Loading";
 import useToken from "../../App/useToken";
-import SignUp from "../users/SignUp";
+import SignIn from "../users/SignIn";
 import UsersContext from "../../context/user";
 
 const ExpensesList = () => {
@@ -65,7 +65,7 @@ const ExpensesList = () => {
     }
     
     if (!token) {
-        return <SignUp/>;
+        return <SignIn/>;
     } else {
         console.log('gg : '+token)
     }

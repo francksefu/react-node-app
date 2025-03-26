@@ -54,7 +54,6 @@ app.post('/signin', async (req, res) => {
   console.log(req.body);
 
   // Hash password
-  console.log(password);
   const hashedPassword = await bcrypt.hash(password, 8);
   
   User.selectAll().then(async (data) => {
