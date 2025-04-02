@@ -11,17 +11,19 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 app.use(cors());
 app.use(express.json());
-
+const secretKey = 'your_secret_key';
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  console.log(authHeader)
+  const token = authHeader;
 
-  if (!token) return res.status(401).send('Token required');
+  if (!token) return res.status(401).send(JSON.stringify({message: 'Token required'}));
 
   jwt.verify(token, secretKey, (err, user) => {
     if (err) return res.status(403).send('Invalid or expired token');
     req.user = user;
+    console.log(user);
     next();
   });
 };
@@ -68,22 +70,7 @@ app.post('/signin', async (req, res) => {
   });
 });
 
-const secretKey = 'your_secret_key';
-
-// Login route
-app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-  const user = User.selectAll().find(u => u.username === username);
-
-  if (!user || !(await bcrypt.compare(password, user.password))) {
-    return res.status(401).send('Invalid credentials');
-  }
-
-  // Generate token
-  const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '30m' });
-
-  res.status(200).send({ token });
-});
+app.use(authenticateToken);
 //index or get all
 app.get("/categories", (req, res) => {
   try {

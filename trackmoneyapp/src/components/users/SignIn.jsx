@@ -2,19 +2,19 @@ import { useContext, useState } from "react";
 import UsersContext from "../../context/user";
 import { Link } from "react-router";
 import ExpensesList from "../expenses/ExpensesList";
-
+import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const {signUser, token} = useContext(UsersContext);
-
+    const navigate = useNavigate();
     const handleSubmit  = async (e) => {
         e.preventDefault();
         await signUser({username, password}, 'http://localhost:3001/signin');
     }
     if (token) {
-        return <ExpensesList/>;
+        navigate("/");
     }
     return (
         <>

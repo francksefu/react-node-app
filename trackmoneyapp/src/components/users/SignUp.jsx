@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import UsersContext from "../../context/user";
 import { Link } from "react-router";
-import ExpensesList from "../expenses/ExpensesList";
+import { useNavigate } from 'react-router-dom';
 
 //Quand tu reviens tu devra tester le sign in et commencer a corriger des petites chose, ensuite va
 //falloir que tu t assure que l application est professionnel, car il devraq etre ajouter a ton portfolio, bref tu fdoit etre 
@@ -14,6 +14,7 @@ const SignUp = () => {
     const [message, setMessage] = useState('');
     const [ dateT, setDate ] = useState('');
     const {signUser, token} = useContext(UsersContext);
+    const navigate = useNavigate();
 
     const handleSubmit  = async (e) => {
         e.preventDefault();
@@ -40,7 +41,7 @@ const SignUp = () => {
         await signUser({username, password, names, dateT}, 'http://localhost:3001/signup');
     }
     if (token) {
-        return <ExpensesList/>;
+        navigate("/");
     }
     return (
         <>

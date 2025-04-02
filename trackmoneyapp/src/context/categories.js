@@ -9,12 +9,14 @@ const ProviderC = ({ children }) => {
     let baseUrl = 'http://localhost';
     const getCategories = async () => {
         const url = `${baseUrl}:${port}/categories`;
+        console.log(sessionStorage.getItem('token'));
         setLoading(true);
         try {
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
+                    'authorization': sessionStorage.getItem('token'),
                 },
             });
             if (!response.ok) throw new Error('Network was not good');
@@ -42,6 +44,7 @@ const ProviderC = ({ children }) => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'authorization': sessionStorage.getItem('token'),
                 },
                 body: JSON.stringify({
                     'name' : name,
@@ -72,6 +75,7 @@ const ProviderC = ({ children }) => {
                 method: 'DELETE',
                 headers: {
                     'Content-Type' : 'application/json',
+                    'authorization': sessionStorage.getItem('token'),
                 }
             });
             
@@ -95,6 +99,7 @@ const ProviderC = ({ children }) => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    'authorization': sessionStorage.getItem('token'),
                 },
                 body: JSON.stringify(data),
             });

@@ -4,13 +4,14 @@ import ExpenseShow from "./ExpenseShow";
 import CreateExpense from "./CreateExpense";
 import Modal from "react-modal";
 import Loading from "../features/Loading";
-import useToken from "../../App/useToken";
 import SignIn from "../users/SignIn";
 import UsersContext from "../../context/user";
+import { useNavigate } from "react-router";
 
 const ExpensesList = () => {
     const {token} = useContext(UsersContext);
     const {expenses, loading, getExpenses} = useContext(ExpensesContext);
+    const navigate = useNavigate();
     useEffect(() => {
         getExpenses();
     }, []);
@@ -65,9 +66,7 @@ const ExpensesList = () => {
     }
     
     if (!token) {
-        return <SignIn/>;
-    } else {
-        console.log('gg : '+token)
+        navigate('/signin');
     }
 
     if (loading) {

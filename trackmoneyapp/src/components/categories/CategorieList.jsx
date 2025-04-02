@@ -4,10 +4,15 @@ import CategorieShow from "./CategorieShow";
 import CreateCategorie from "./CreateAndEditCategorie";
 import Modal from "react-modal";
 import Loading from "../features/Loading";
+import { useNavigate } from "react-router";
+import UsersContext from "../../context/user";
 
 const CategoriesList = () => {
-    
+
     const {getCategories, categories, loading} = useContext(CategoriesContext);
+    const navigate = useNavigate();
+    const { token } = useContext(UsersContext);
+    
     useEffect(() => {
         getCategories();
     }, []);
@@ -46,7 +51,9 @@ const CategoriesList = () => {
       };
 
     //
-
+    if (!token) {
+        navigate('/signin');
+    }
     function openModal() {
         setIsOpen(true);
     }
