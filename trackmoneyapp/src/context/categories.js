@@ -7,9 +7,8 @@ const ProviderC = ({ children }) => {
     const [loading, setLoading] = useState(true);
     let port = '3001';
     let baseUrl = 'http://localhost';
-    const getCategories = async () => {
+    const getCategories = async (returnValueMyself = false) => {
         const url = `${baseUrl}:${port}/categories`;
-        console.log(sessionStorage.getItem('token'));
         setLoading(true);
         try {
             const response = await fetch(url, {
@@ -23,8 +22,12 @@ const ProviderC = ({ children }) => {
 
             const storedCategories = await response.json();
             //update the categories
-            
-            if (storedCategories) {
+            if (storedCategories && returnValueMyself) {
+                let data = JSON.parse(storedCategories.categories);
+                data = data.map((categori) => {return {value: categori.id, label: categori.name}})
+                return {options: data};
+            }
+            else if(storedCategories) {
                 setLoading(false);
                 setCategories(JSON.parse(storedCategories.categories));
             }

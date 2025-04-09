@@ -11,13 +11,12 @@ const CreateExpense = ({closeModal ,editExpenseItem = null}) => {
     const [description, setDescription] = useState(editExpenseItem ? editExpenseItem.description : '');
     const [idCategorie, setIdCategorie] = useState(editExpenseItem ? editExpenseItem.idCategorie : null);
     const { createExpense, changeExpense } = useContext(ExpensesContext);
-    const { getCategories, categories } = useContext(CategoriesContext);
+    const {categories,getCategories} = useContext(CategoriesContext);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     useEffect(() => {
         getCategories();
-    }, []);
-    
+    }, [isMenuOpen])
     const options = categories.map((categori) => {return {value: categori.id, label: categori.name}})
-    console.log(options);
     const handleSubmit = (e) => {
         e.preventDefault();
         if (editExpenseItem) {
@@ -47,7 +46,10 @@ const CreateExpense = ({closeModal ,editExpenseItem = null}) => {
                         value={options.filter((categ) => categ.value == idCategorie)[0]}
                         onChange={(e) => {setIdCategorie(e.value);}}
                         options={options}
+                        onMenuOpen={() => setIsMenuOpen(true)}
+                        onMenuClose={() => setIsMenuOpen(false)}
                     />
+                    
                 </div>
                 <label htmlFor="amount" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount</label>
                 <input

@@ -18,7 +18,6 @@ const SignUp = () => {
 
     const handleSubmit  = async (e) => {
         e.preventDefault();
-        console.log(dateT);
         if (! dateT) {
             setMessage('Date of birth is required, fill it before submit');
             return;

@@ -15,7 +15,6 @@ const secretKey = 'your_secret_key';
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
-  console.log(authHeader)
   const token = authHeader;
 
   if (!token) return res.status(401).send(JSON.stringify({message: 'Token required'}));
@@ -23,17 +22,12 @@ const authenticateToken = (req, res, next) => {
   jwt.verify(token, secretKey, (err, user) => {
     if (err) return res.status(403).send('Invalid or expired token');
     req.user = user;
-    console.log(user);
     next();
   });
 };
 
 app.post('/signup', async (req, res) => {
   const { username, password, names, dateT } = req.body;
-  console.log(req.body);
-
-  // Hash password
-  console.log(password);
   const hashedPassword = await bcrypt.hash(password, 8);
 
   // Store user
@@ -46,14 +40,12 @@ app.post('/signup', async (req, res) => {
       return res.status(401).send('Invalid credentials');
     }
     const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '10m' });
-    console.log(token)
     res.status(200).send({ token : token });
   });
 });
 
 app.post('/signin', async (req, res) => {
   const { username, password, names, dateT } = req.body;
-  console.log(req.body);
 
   // Hash password
   const hashedPassword = await bcrypt.hash(password, 8);
@@ -65,7 +57,6 @@ app.post('/signin', async (req, res) => {
       return res.status(401).send('Invalid credentials');
     }
     const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '10m' });
-    console.log(token)
     res.status(200).send({ token : token });
   });
 });
@@ -74,7 +65,6 @@ app.use(authenticateToken);
 //index or get all
 app.get("/categories", (req, res) => {
   try {
-    console.log('Categorie is coming ...');
     res.json({ categories: (Categorie.selectAll()) });
   } catch (error) {
     res.status(500).send({ message: error.message });

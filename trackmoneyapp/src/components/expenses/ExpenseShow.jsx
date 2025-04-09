@@ -4,7 +4,7 @@ import Modal from "react-modal";
 import CreateExpense from "./CreateExpense";
 import WarningDeleteExpense from "./WarningDeleteExpense";
 
-const ExpenseShow = ({expense}) => {
+const ExpenseShow = ({expense, categories = null}) => {
 
     const [modalIsOpen, setIsOpen] = useState(false);
     const [modalOfDeletion, setModalOfDeletion] = useState(false);

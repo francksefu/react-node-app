@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import UsersContext from "../../context/user";
 
 const Navbar = () => {
@@ -11,6 +11,7 @@ const Navbar = () => {
         setToken(null);
         setDropdown(false);
     }
+    const location = useLocation();
     return (
         <>
         <nav className="bg-gray-800">
