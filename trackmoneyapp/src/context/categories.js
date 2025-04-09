@@ -7,7 +7,7 @@ const ProviderC = ({ children }) => {
     const [loading, setLoading] = useState(true);
     let port = '3001';
     let baseUrl = 'http://localhost';
-    const getCategories = async () => {
+    const getCategories = async (returnValueMyself = false) => {
         const url = `${baseUrl}:${port}/categories`;
         setLoading(true);
         try {
@@ -15,14 +15,19 @@ const ProviderC = ({ children }) => {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
+                    'authorization': sessionStorage.getItem('token'),
                 },
             });
             if (!response.ok) throw new Error('Network was not good');
 
             const storedCategories = await response.json();
             //update the categories
-            
-            if (storedCategories) {
+            if (storedCategories && returnValueMyself) {
+                let data = JSON.parse(storedCategories.categories);
+                data = data.map((categori) => {return {value: categori.id, label: categori.name}})
+                return {options: data};
+            }
+            else if(storedCategories) {
                 setLoading(false);
                 setCategories(JSON.parse(storedCategories.categories));
             }
@@ -42,6 +47,7 @@ const ProviderC = ({ children }) => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'authorization': sessionStorage.getItem('token'),
                 },
                 body: JSON.stringify({
                     'name' : name,
@@ -72,6 +78,7 @@ const ProviderC = ({ children }) => {
                 method: 'DELETE',
                 headers: {
                     'Content-Type' : 'application/json',
+                    'authorization': sessionStorage.getItem('token'),
                 }
             });
             
@@ -95,6 +102,7 @@ const ProviderC = ({ children }) => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    'authorization': sessionStorage.getItem('token'),
                 },
                 body: JSON.stringify(data),
             });

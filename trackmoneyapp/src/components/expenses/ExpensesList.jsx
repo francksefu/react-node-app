@@ -4,9 +4,15 @@ import ExpenseShow from "./ExpenseShow";
 import CreateExpense from "./CreateExpense";
 import Modal from "react-modal";
 import Loading from "../features/Loading";
+import UsersContext from "../../context/user";
+import { useNavigate } from "react-router";
+import CategoriesContext from "../../context/categories";
 
 const ExpensesList = () => {
+    const {token} = useContext(UsersContext);
     const {expenses, loading, getExpenses} = useContext(ExpensesContext);
+    const {getCategories} = useContext(CategoriesContext);
+    const navigate = useNavigate();
     useEffect(() => {
         getExpenses();
     }, []);
@@ -58,6 +64,10 @@ const ExpensesList = () => {
 
     function afterOpenModal() {
         console.log('I am open');
+    }
+    
+    if (!token) {
+        navigate('/signin');
     }
 
     if (loading) {
