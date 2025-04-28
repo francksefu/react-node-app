@@ -39,7 +39,7 @@ app.post('/signup', async (req, res) => {
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).send('Invalid credentials');
     }
-    const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '10m' });
+    const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '30m' });
     res.status(200).send({ token : token });
   });
 });
@@ -56,7 +56,7 @@ app.post('/signin', async (req, res) => {
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).send('Invalid credentials');
     }
-    const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '10m' });
+    const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '30m' });
     res.status(200).send({ token : token });
   });
 });

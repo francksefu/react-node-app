@@ -26,6 +26,7 @@ const Provider = ({ children }) => {
             if (storedExpenses) {
                 setLoading(false);
                 setExpenses(JSON.parse(storedExpenses.expenses));
+                console.log(storedExpenses.expenses);
             }
             
         } catch (error) {

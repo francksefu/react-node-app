@@ -1,10 +1,10 @@
-import { useContext, useState } from "react"
+import { useState } from "react"
 
 import Modal from "react-modal";
 import CreateExpense from "./CreateExpense";
 import WarningDeleteExpense from "./WarningDeleteExpense";
 
-const ExpenseShow = ({expense, categories = null}) => {
+const ExpenseShow = ({expense}) => {
 
     const [modalIsOpen, setIsOpen] = useState(false);
     const [modalOfDeletion, setModalOfDeletion] = useState(false);
@@ -72,7 +72,7 @@ const ExpenseShow = ({expense, categories = null}) => {
                 </td>
                 <td className="p-4 border-b border-blue-gray-50">
                     <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                    {expense.idCategorie}
+                    {expense.name}
                     </p>
                 </td>
                 <td className="p-4 border-b border-blue-gray-50">

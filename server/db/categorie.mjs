@@ -57,8 +57,15 @@ class Categorie {
     static delete (id) {
         return new Promise((resolve) => {
             let sql = 'DELETE FROM categorie WHERE id = ?';
+            let sqlForDeleteRelatedExpense = 'DELETE FROM expense WHERE expense.idCategorie = ?';
             connection.query(sql, parseInt(id), function (error, results, fields) {
-                if (error) throw error;
+                if (error) {
+                    throw error
+                }else {
+                    connection.query(sqlForDeleteRelatedExpense, parseInt(id), function (error, results, fields) {
+                        if (error) throw error;
+                    });
+                }
             });
             let sqlReturnData = 'SELECT * FROM categorie order by id desc';
             connection.query(sqlReturnData, function (error, results, fields) {
