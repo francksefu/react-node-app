@@ -23,7 +23,7 @@ class Expense {
     }
 
     static selectAll() {
-        let sql = 'SELECT * FROM expense order by id desc';
+        let sql = 'SELECT expense.id, expense.amount, expense.date, expense.description, expense.idCategorie, categorie.name FROM expense, categorie where expense.idCategorie = categorie.id order by id desc';
         connection.query(sql, function (error, results, fields) {
             if (error) throw error;
             Expense.expenses = JSON.stringify(results);
