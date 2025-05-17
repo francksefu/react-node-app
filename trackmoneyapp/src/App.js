@@ -1,10 +1,54 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useContext, useState } from "react";
 import ExpensesContext from "./context/expenses";
 import ExpensesList from "./components/expenses/ExpensesList";
 import Navbar from "./components/features/Navbar";
-function App() {
-  const {getExpenses, loading} = useContext(ExpensesContext);
+import Chart from "chart.js/auto";
+import { CategoryScale } from "chart.js";
+import CategoriesContext from "./context/categories";
+import BarChart from "./components/features/barchart";
 
+function App() {
+  const {getExpensesAll, loading, expenses} = useContext(ExpensesContext);
+  const { getCategories, categories} = useContext(CategoriesContext);
+  useEffect(() => {
+    getExpensesAll();
+    getCategories();
+  }, []);
+
+  function expenseToCalculateForChart() {
+    let dataExpenses = [];
+    let expenseFilterByCategori = [];
+    categories.map((categorie) => {
+      expenseFilterByCategori = expenses.filter((expense) => categorie.id === expense.idCategorie)
+      let arrayToReduce = [];
+      if (expenseFilterByCategori.length == 0) {
+        arrayToReduce.push(0)
+      } else {
+        for (let i = 0; i < expenseFilterByCategori.length; i++) {
+          arrayToReduce.push(expenseFilterByCategori[i].amount)
+        }
+      }
+      
+      dataExpenses.push(arrayToReduce.reduce((acc, current) => acc + current))
+    })
+    return dataExpenses;
+  }
+  const [chartData, setChartData] = useState({
+    labels: categories.map((data) => data.name), 
+    datasets: [
+      {
+        label: "Total expenses related to this categorie",
+        data: expenseToCalculateForChart(),
+        backgroundColor: [
+          "rgba(75,192,192,1)",
+          
+        ],
+        borderColor: "black",
+        borderWidth: 2
+      }
+    ]
+  });
+  Chart.register(CategoryScale);
     return (
       <>
         <div className="mx-auto py-4 px-6">
@@ -15,7 +59,7 @@ function App() {
               don't forget to give us your feed back about this application. Thank you a lot
             </p>
             <div id="chart" className="px-4">
-              
+              <BarChart BarChart={chartData} />
             </div>
           </div>
           <h2 className="text-3xl p-5">

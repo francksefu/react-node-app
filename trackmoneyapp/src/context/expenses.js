@@ -26,7 +26,33 @@ const Provider = ({ children }) => {
             if (storedExpenses) {
                 setLoading(false);
                 setExpenses(JSON.parse(storedExpenses.expenses));
-                console.log(storedExpenses.expenses);
+            }
+            
+        } catch (error) {
+            setLoading(false);
+            console.error('Error during the get process : ', error);
+        }
+    };
+
+    const getExpensesAll = async () => {
+        const url = `${baseUrl}:${port}/expenses-no-related`;
+        setLoading(true);
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': sessionStorage.getItem('token'),
+                },
+            });
+            if (!response.ok) throw new Error('Network was not good');
+
+            const storedExpenses = await response.json();
+            //update the expenses
+            
+            if (storedExpenses) {
+                setLoading(false);
+                setExpenses(JSON.parse(storedExpenses.expenses));
             }
             
         } catch (error) {
@@ -117,7 +143,7 @@ const Provider = ({ children }) => {
         }
     };
 
-    const shared = {expenses, getExpenses, createExpense, removeExpense, changeExpense, loading};
+    const shared = {expenses, getExpenses, createExpense, removeExpense, changeExpense, loading, getExpensesAll};
 
     return (
         <ExpensesContext.Provider value={shared}>{children}</ExpensesContext.Provider>

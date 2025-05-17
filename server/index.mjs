@@ -105,6 +105,15 @@ app.delete("/categories/:id", (req, res) => {
 //index or get all
 app.get("/expenses", (req, res) => {
   try {
+    res.json({ expenses: (Expense.selectAllRelatedToCategories()) });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+  
+});
+
+app.get("/expenses-no-related", (req, res) => {
+  try {
     res.json({ expenses: (Expense.selectAll()) });
   } catch (error) {
     res.status(500).send({ message: error.message });
