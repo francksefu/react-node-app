@@ -10,6 +10,7 @@ import Navbar from './components/features/Navbar';
 import { ProviderU } from './context/user';
 import SignUp from './components/users/SignUp';
 import SignIn from './components/users/SignIn';
+import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -19,7 +20,8 @@ root.render(
     <BrowserRouter>
     <Navbar />
       <Routes>
-        <Route path="/" element={<Expense />} />
+        <Route path="/" element={<App />} />
+        <Route path="/expenses" element={<Expense />} />
         <Route path="/categories" element={<Categorie />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
