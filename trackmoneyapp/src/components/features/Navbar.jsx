@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router";
 import UsersContext from "../../context/user";
 
 const Navbar = () => {
-    const {token, setToken} = useContext(UsersContext);
+    const {token, setToken, activeMenu, setActiveMenu} = useContext(UsersContext);
     const [dropdown, setDropdown] = useState(false);
     const [dropdownMobile, setDropdownMobile] = useState(false);
     const signOut = () => {
@@ -48,9 +48,9 @@ const Navbar = () => {
                     <div className="hidden sm:ml-6 sm:block">
                     <div className="flex space-x-4">
                     
-                        <Link to="/" className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" aria-current="page">Home</Link>
-                        <Link to="/expenses" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Expenses</Link>
-                        <Link to="/categories" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Categories</Link>
+                        <Link to="/" onClick={() => setActiveMenu('Home')} className={`${activeMenu === "Home" ? "bg-gray-700" : ""} ${"rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white"}`} aria-current="page">Home</Link>
+                        <Link to="/expenses" onClick={() => setActiveMenu('Expenses')} className={`${activeMenu === "Expenses" ? "bg-gray-700" : ""} ${"rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"}`}>Expenses</Link>
+                        <Link to="/categories" onClick={() => setActiveMenu('Categorie')} className={`${activeMenu === "Categorie" ? "bg-gray-700" : ""} ${"rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"}`}>Categories</Link>
                         
                     </div>
                     </div>
@@ -66,13 +66,19 @@ const Navbar = () => {
 
                     {/*<!-- Profile dropdown -->*/}
                     <div className="relative ml-3">
-                    <div>
-                        <button onClick={() => setDropdown(! dropdown)} type="button" className="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-                        <span className="absolute -inset-1.5"></span>
-                        <span className="sr-only">Open user menu</span>
-                        <img className="size-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""/>
-                        </button>
-                    </div>
+                    {token ? (
+                        <div>
+                            <button onClick={() => setDropdown(! dropdown)} type="button" className="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                            <span className="absolute -inset-1.5"></span>
+                            <span className="sr-only">Open user menu</span>
+                            <img className="size-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""/>
+                            </button>
+                        </div>
+                    ) : (<div>
+                        <Link to="/signin" className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Sign in</Link>
+                        <Link to="/signup" className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Sign up</Link>
+                    </div>)}
+                    
 
                     {/*
                         Dropdown menu, show/hide based on menu state.

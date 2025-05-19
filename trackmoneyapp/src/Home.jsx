@@ -4,11 +4,13 @@ import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import CategoriesContext from "./context/categories";
 import BarChart from "./components/features/barchart";
-import { Link } from "react-router";
+
+import UsersContext from "./context/user";
 
 export default function Home() {
   const {getExpensesAll, loadingAllExpenses, expenses} = useContext(ExpensesContext);
   const { getCategories, categories, loading} = useContext(CategoriesContext);
+  const {token} = useContext(UsersContext);
   useEffect(() => {
     getExpensesAll();
     getCategories();
@@ -56,7 +58,7 @@ export default function Home() {
           <h1 className="text-5xl row-span-2 font-bold text-slate-700 py-4 text-center">Hello everyone, Welcome here!<br/> Track your money easily with us</h1>
           </div>
           
-          {!(loading && loadingAllExpenses) ? (
+          {token ? (
             <div id="chart" className="px-4 col-span-2">
               <BarChart BarChart={chartData} />
             </div>
