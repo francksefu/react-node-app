@@ -13,7 +13,9 @@ import SignIn from './components/users/SignIn';
 import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
+  <main className='bg-green-100'>
   <ProviderU>
   <ProviderC>
   <Provider>
@@ -30,6 +32,7 @@ root.render(
   </Provider>
   </ProviderC>
   </ProviderU>
+  </main>
 );
 
 

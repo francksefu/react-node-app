@@ -5,6 +5,7 @@ const ExpensesContext = createContext();
 const Provider = ({ children }) => {
     const [expenses, setExpenses] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [loadingAllExpenses, setLoadingAllExpenses] = useState(true);
     let port = '3001';
     let baseUrl = 'http://localhost';
     const getExpenses = async () => {
@@ -36,7 +37,7 @@ const Provider = ({ children }) => {
 
     const getExpensesAll = async () => {
         const url = `${baseUrl}:${port}/expenses-no-related`;
-        setLoading(true);
+        setLoadingAllExpenses(true);
         try {
             const response = await fetch(url, {
                 method: 'GET',
@@ -51,12 +52,12 @@ const Provider = ({ children }) => {
             //update the expenses
             
             if (storedExpenses) {
-                setLoading(false);
+                setLoadingAllExpenses(false);
                 setExpenses(JSON.parse(storedExpenses.expenses));
             }
             
         } catch (error) {
-            setLoading(false);
+            setLoadingAllExpenses(false);
             console.error('Error during the get process : ', error);
         }
     };
@@ -143,7 +144,7 @@ const Provider = ({ children }) => {
         }
     };
 
-    const shared = {expenses, getExpenses, createExpense, removeExpense, changeExpense, loading, getExpensesAll};
+    const shared = {expenses, getExpenses, createExpense, removeExpense, changeExpense, loading, getExpensesAll, loadingAllExpenses};
 
     return (
         <ExpensesContext.Provider value={shared}>{children}</ExpensesContext.Provider>
