@@ -6,6 +6,7 @@ const Provider = ({ children }) => {
     const [expenses, setExpenses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [loadingAllExpenses, setLoadingAllExpenses] = useState(true);
+    const [expensesAll, setExpensesAll] = useState([]);
     let port = '3001';
     let baseUrl = 'http://localhost';
     const getExpenses = async () => {
@@ -53,7 +54,7 @@ const Provider = ({ children }) => {
             
             if (storedExpenses) {
                 setLoadingAllExpenses(false);
-                setExpenses(JSON.parse(storedExpenses.expenses));
+                setExpensesAll(JSON.parse(storedExpenses.expenses));
             }
             
         } catch (error) {
@@ -144,7 +145,7 @@ const Provider = ({ children }) => {
         }
     };
 
-    const shared = {expenses, getExpenses, createExpense, removeExpense, changeExpense, loading, getExpensesAll, loadingAllExpenses};
+    const shared = {expenses, expensesAll, getExpenses, createExpense, removeExpense, changeExpense, loading, getExpensesAll, loadingAllExpenses};
 
     return (
         <ExpensesContext.Provider value={shared}>{children}</ExpensesContext.Provider>

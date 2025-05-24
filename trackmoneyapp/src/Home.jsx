@@ -8,7 +8,7 @@ import BarChart from "./components/features/barchart";
 import UsersContext from "./context/user";
 
 export default function Home() {
-  const {getExpensesAll, loadingAllExpenses, expenses} = useContext(ExpensesContext);
+  const {getExpensesAll, loadingAllExpenses, expensesAll} = useContext(ExpensesContext);
   const { getCategories, categories, loading} = useContext(CategoriesContext);
   const {token} = useContext(UsersContext);
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function Home() {
     let dataExpenses = [];
     let expenseFilterByCategori = [];
     categories.map((categorie) => {
-      expenseFilterByCategori = expenses.filter((expense) => categorie.id === expense.idCategorie)
+      expenseFilterByCategori = expensesAll.filter((expense) => categorie.id === expense.idCategorie)
       let arrayToReduce = [];
       if (expenseFilterByCategori.length == 0) {
         arrayToReduce.push(0)
@@ -50,6 +50,12 @@ export default function Home() {
     ]
   });
   Chart.register(CategoryScale);
+    if (loading && loadingAllExpenses) {
+       return (
+        <div>wait ..</div>
+       )
+    }
+
     return (
       <section className="mx-auto p-2 content-center">
         <div className="mx-auto py-4 px-6 grid grid-cols-3">
@@ -57,7 +63,6 @@ export default function Home() {
           <div className="row-span-1"></div>
           <h1 className="text-5xl row-span-2 font-bold text-slate-700 py-4 text-center">Hello everyone, Welcome here!<br/> Track your money easily with us</h1>
           </div>
-          
           {token ? (
             <div id="chart" className="px-4 col-span-2">
               <BarChart BarChart={chartData} />
