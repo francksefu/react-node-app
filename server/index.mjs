@@ -115,15 +115,15 @@ app.get("/expenses", (req, res) => {
   }
   
 });
-
+/*
 app.get("/expenses-no-related", (req, res) => {
   try {
-    res.json({ expenses: (Expense.selectAll()) });
+    res.json({ expenses: (Expense.selectAll(courantUser.id)) });
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
   
-});
+});*/
 //update
 
 app.put("/expenses/:id", (req, res) => {

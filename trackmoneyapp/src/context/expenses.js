@@ -37,7 +37,7 @@ const Provider = ({ children }) => {
     };
 
     const getExpensesAll = async () => {
-        const url = `${baseUrl}:${port}/expenses-no-related`;
+        const url = `${baseUrl}:${port}/expenses`;
         setLoadingAllExpenses(true);
         try {
             const response = await fetch(url, {

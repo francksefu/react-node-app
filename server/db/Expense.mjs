@@ -23,14 +23,14 @@ class Expense {
         })
     }
 
-    static selectAll() {
-        let sql = 'SELECT * FROM expense order by id desc';
+    /*static selectAll(idUser) {
+        let sql = `SELECT expense.id, expense.amount, expense.date, expense.description, expense.idCategorie, categorie.name FROM expense, categorie where (expense.idCategorie = categorie.id) and (categorie.idUser = ${idUser}) order by id desc`;
         connection.query(sql, function (error, results, fields) {
             if (error) throw error;
             Expense.expenses = JSON.stringify(results);
         })
         return Expense.expenses;
-    }
+    }*/
     static selectAllRelatedToCategories(idUser) {
         let sql = `SELECT expense.id, expense.amount, expense.date, expense.description, expense.idCategorie, categorie.name FROM expense, categorie where (expense.idCategorie = categorie.id) and (categorie.idUser = ${idUser}) order by id desc`;
         connection.query(sql, function (error, results, fields) {
