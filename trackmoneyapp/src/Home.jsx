@@ -6,6 +6,8 @@ import CategoriesContext from "./context/categories";
 import BarChart from "./components/features/barchart";
 
 import UsersContext from "./context/user";
+import CategoriesList from "./components/categories/CategorieList";
+import ExpensesList from "./components/expenses/ExpensesList";
 
 export default function Home() {
   const {getExpensesAll, loadingAllExpenses, expensesAll} = useContext(ExpensesContext);
@@ -34,7 +36,7 @@ export default function Home() {
     })
     return dataExpenses;
   }
-  const [chartData, setChartData] = useState({
+  const chartData = {
     labels: categories.map((data) => data.name), 
     datasets: [
       {
@@ -48,14 +50,18 @@ export default function Home() {
         borderWidth: 2
       }
     ]
-  });
-  Chart.register(CategoryScale);
+  };
+    console.log(chartData);
+    console.log(categories);
+    console.log(expensesAll);
     if (loading && loadingAllExpenses) {
        return (
-        <div>wait ..</div>
+        <div>
+          wait ..
+        </div>
        )
     }
-
+    Chart.register(CategoryScale);
     return (
       <section className="mx-auto p-2 content-center">
         <div className="mx-auto py-4 px-6 grid grid-cols-3">
