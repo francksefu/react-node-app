@@ -2,16 +2,30 @@ import { useContext, useState } from "react";
 import UsersContext from "../../context/user";
 import { Link } from "react-router";
 import { useNavigate } from 'react-router-dom';
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const SignIn = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
     const {signUser, token} = useContext(UsersContext);
     const navigate = useNavigate();
-    const handleSubmit  = async (e) => {
-        e.preventDefault();
-        await signUser({username, password}, 'http://localhost:3001/signin');
-    }
+    //
+    const formik = useFormik({
+        initialValues: {
+          username: '',
+          password: '',
+        },
+        validationSchema: Yup.object({
+          username: Yup.string().email()
+            .required('Required dude'),
+          password: Yup.string()
+            .min(8, 'Must be 8 characters or more')       
+        }),
+        onSubmit: async (values) => {
+            await signUser(values, 'http://localhost:3001/signin');
+        }
+      });
+      //
+    
     if (token) {
         navigate("/");
     }
@@ -29,11 +43,17 @@ const SignIn = () => {
                         <div className="mt-2">
                         <input
                             type="text"
-                            placeholder="user name"
+                            id="username"
+                            name="username"
+                            placeholder="email"
                             required
-                            onChange={(e) => setUsername(e.target.value)}
+                            value={formik.values.username}
+                            onChange={formik.handleChange}
                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                         />
+                        {formik.errors.username ? (
+                    <div><small className="text-red-500">{formik.errors.username}</small></div>
+                ) : null}
                         </div>
                     </div>
 
@@ -48,15 +68,19 @@ const SignIn = () => {
                         <input type="password"
                             name="password" 
                             autoComplete="current-password"
+                            value={formik.values.password}
                             required
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={formik.handleChange}
                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                         />
+                        {formik.errors.password ? (
+                            <div><small className="text-red-500">{formik.errors.password}</small></div>
+                        ) : null}
                         </div>
                     </div>
 
                     <div>
-                        <button onClick = {handleSubmit} className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
+                        <button type="submit" onClick = {formik.handleSubmit} className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
                         <p className="p-3 text-gray-500">You don't have an account? <Link className="text-indigo-600 hover:text-indigo-500" to="/signup">sign up</Link></p>
                     </div>
                     </form>
