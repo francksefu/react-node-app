@@ -5,6 +5,7 @@ const UsersContext = createContext();
 const ProviderU = ({ children }) => {
     const [token, setToken] = useState(sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '');
     const [loading, setLoading] = useState(true);
+    const [activeMenu, setActiveMenu] = useState('Home');
     let port = '3001';
     let baseUrl = 'http://localhost';
     const signUser = async ({username, password, names = null, dateT = null}, url) => {
@@ -30,7 +31,7 @@ const ProviderU = ({ children }) => {
         }
     };
 
-    const shared = {token, setToken, signUser, loading};
+    const shared = {token, setToken, signUser, loading, activeMenu, setActiveMenu};
 
     return (
         <UsersContext.Provider value={shared}>{children}</UsersContext.Provider>

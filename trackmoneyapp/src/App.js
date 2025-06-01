@@ -1,24 +1,16 @@
-import { useContext, useEffect, useState } from "react";
+import Home from "./Home";
+import { useEffect, useContext, useState } from "react";
 import ExpensesContext from "./context/expenses";
-import ExpensesList from "./components/expenses/ExpensesList";
-import Navbar from "./components/features/Navbar";
+import CategoriesContext from "./context/categories";
+import UsersContext from "./context/user";
 function App() {
-  const {getExpenses, loading} = useContext(ExpensesContext);
-
-    return (
-      <>
-        <Navbar />
-        <div className="App m-4">
-          <h1 className="text-3xl font-bold text-gray-500">
-            Expenses
-          </h1>
-          <ExpensesList />
-        </div>
-        
-      </>
-      
-    );
+  const {token, setToken} = useContext(UsersContext);
+  const {getExpensesAll, loadingAllExpenses} = useContext(ExpensesContext);
+  const { getCategories} = useContext(CategoriesContext);
   
+  return(
+    <Home />
+  );
 }
 
 export default App;

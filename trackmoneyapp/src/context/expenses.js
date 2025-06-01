@@ -5,6 +5,8 @@ const ExpensesContext = createContext();
 const Provider = ({ children }) => {
     const [expenses, setExpenses] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [loadingAllExpenses, setLoadingAllExpenses] = useState(true);
+    const [expensesAll, setExpensesAll] = useState([]);
     let port = '3001';
     let baseUrl = 'http://localhost';
     const getExpenses = async () => {
@@ -26,11 +28,37 @@ const Provider = ({ children }) => {
             if (storedExpenses) {
                 setLoading(false);
                 setExpenses(JSON.parse(storedExpenses.expenses));
-                console.log(storedExpenses.expenses);
             }
             
         } catch (error) {
             setLoading(false);
+            console.error('Error during the get process : ', error);
+        }
+    };
+
+    const getExpensesAll = async () => {
+        const url = `${baseUrl}:${port}/expenses`;
+        setLoadingAllExpenses(true);
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': sessionStorage.getItem('token'),
+                },
+            });
+            if (!response.ok) throw new Error('Network was not good');
+
+            const storedExpenses = await response.json();
+            //update the expenses
+            
+            if (storedExpenses) {
+                setLoadingAllExpenses(false);
+                setExpensesAll(JSON.parse(storedExpenses.expenses));
+            }
+            
+        } catch (error) {
+            setLoadingAllExpenses(false);
             console.error('Error during the get process : ', error);
         }
     };
@@ -117,7 +145,7 @@ const Provider = ({ children }) => {
         }
     };
 
-    const shared = {expenses, getExpenses, createExpense, removeExpense, changeExpense, loading};
+    const shared = {expenses, expensesAll, getExpenses, createExpense, removeExpense, changeExpense, loading, getExpensesAll, loadingAllExpenses};
 
     return (
         <ExpensesContext.Provider value={shared}>{children}</ExpensesContext.Provider>
