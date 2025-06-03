@@ -5,10 +5,10 @@ const CategoriesContext = createContext();
 const ProviderC = ({ children }) => {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
-    let port = '3001';
-    let baseUrl = 'http://localhost';
+    //let port = '3001';
+    let baseUrl = 'https://react-node-app-psi.vercel.app';
     const getCategories = async (returnValueMyself = false) => {
-        const url = `${baseUrl}:${port}/categories`;
+        const url = `${baseUrl}/categories`;
         setLoading(true);
         try {
             const response = await fetch(url, {
@@ -41,7 +41,7 @@ const ProviderC = ({ children }) => {
     const  createCategorie = async (name, isHaveLimit, amountLimit) => {
         //call an API to create new categories
         setLoading(true);
-        const url = `${baseUrl}:${port}/categories`;
+        const url = `${baseUrl}/categories`;
         try {
             const response = await fetch(url, {
                 method: 'POST',
@@ -71,7 +71,7 @@ const ProviderC = ({ children }) => {
     //remove 
     const removeCategorie = async (id) => {
         setLoading(true);
-        const url = `${baseUrl}:${port}/categories/${id}`;
+        const url = `${baseUrl}/categories/${id}`;
 
         try {
             const response = await fetch(url, {
@@ -94,7 +94,7 @@ const ProviderC = ({ children }) => {
     };
 
     const changeCategorie = async (name, isHaveLimit, amountLimit, id) => {
-        const url = `${baseUrl}:${port}/categories/${id}`;
+        const url = `${baseUrl}/categories/${id}`;
         const data = {name, isHaveLimit, amountLimit, id};
         setLoading(true);
         try {
