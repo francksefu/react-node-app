@@ -9,7 +9,7 @@ import UsersContext from "./context/user";
 export default function Home() {
   const {getExpensesAll, loadingAllExpenses, expensesAll} = useContext(ExpensesContext);
   const { getCategories, categories, loading} = useContext(CategoriesContext);
-  const {token} = useContext(UsersContext);
+  const {token, names} = useContext(UsersContext);
   useEffect(() => {
     getExpensesAll();
     getCategories();
@@ -61,7 +61,12 @@ export default function Home() {
         <div className="mx-auto py-4 px-6 grid grid-cols-1 sm:grid-cols-3">
           <div className="col-span-1 grid grid-rows-1 sm:grid-rows-3">
           <div className="row-span-1"></div>
-          <h1 className="text-5xl sm:row-span-2 row-span-1  font-bold text-slate-700 py-4 text-center">Hello everyone, Welcome here!<br/> Track your money easily with us</h1>
+          <h1 className="text-5xl sm:row-span-2 row-span-1  font-bold text-slate-700 py-4 text-center">
+            {token ? (
+             <>Hello everyone, Welcome {names}!<br/> Track your money easily with us</> 
+            ) : (<>Hello everyone, Welcome here!<br/> Track your money easily with us</>)}
+            
+          </h1>
           </div>
           {token ? (
             <div id="chart" className="px-4 col-span-1 sm:col-span-2 h-50">

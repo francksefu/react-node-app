@@ -11,7 +11,7 @@ let courantUser;
 const app = express();
 app.use(cors());
 app.use(express.json());
-const secretKey = 'your_secret_key';
+const secretKey = 'kalunga';
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
@@ -44,7 +44,7 @@ app.post('/signup', async (req, res) => {
       }
       courantUser = {id: user.id, names: user.names}
       const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '30m' });
-      res.status(200).send({ token : token });
+      res.status(200).send({ token : token, names: user.names});
     });
   }
   
@@ -64,7 +64,7 @@ app.post('/signin', async (req, res) => {
     }
     courantUser = {id: user.id, names: user.names};
     const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '30m' });
-    res.status(200).send({ token : token });
+    res.status(200).send({ token : token, names: user.names });
   });
 });
 
