@@ -1,24 +1,13 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import UsersContext from "../../context/user";
 import { Link } from "react-router";
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-//Quand tu reviens tu devra tester le sign in et commencer a corriger des petites chose, ensuite va
-//falloir que tu t assure que l application est professionnel, car il devraq etre ajouter a ton portfolio, bref tu fdoit etre 
-//fiere du truc
-
 const SignUp = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [names, setNames] = useState('');
-    const [message, setMessage] = useState('');
-    const [ dateT, setDate ] = useState('');
-    const {signUser, token} = useContext(UsersContext);
+    const {signUser, token, message} = useContext(UsersContext);
     const navigate = useNavigate();
-
-    //
     const formik = useFormik({
         initialValues: {
           username: '',
@@ -130,6 +119,7 @@ const SignUp = () => {
                         <button type="submit" onClick = {formik.handleSubmit} className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign up</button>
                         <p className="text-center text-gray-500">Already have an account? <Link className="text-indigo-600 hover:text-indigo-500" to="/signin">sign in</Link></p>
                     </div>
+                    <div><small className="text-red-500">{message}</small></div>
                     </form>
                 </div>
             </div>

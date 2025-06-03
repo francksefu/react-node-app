@@ -11,7 +11,7 @@ let courantUser;
 const app = express();
 app.use(cors());
 app.use(express.json());
-const secretKey = 'your_secret_key';
+const secretKey = 'kalunga';
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
@@ -31,18 +31,23 @@ app.post('/signup', async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 8);
 
   // Store user
-  User.insert({username: username, password: hashedPassword, names, dateT});
+  if (await User.checkIfUsernameExist(username)) {
+    res.status(200).send({ message : 'User exist' });
+  } else {
+    User.insert({username: username, password: hashedPassword, names, dateT});
   
-  User.selectAll().then(async (data) => {
-    
-    const user = JSON.parse(data).find(u => u.username == username);
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(401).send('Invalid credentials');
-    }
-    courantUser = {id: user.id, names: user.names}
-    const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '30m' });
-    res.status(200).send({ token : token });
-  });
+    User.selectAll().then(async (data) => {
+      
+      const user = JSON.parse(data).find(u => u.username == username);
+      if (!user || !(await bcrypt.compare(password, user.password))) {
+        return res.status(401).send('Invalid credentials');
+      }
+      courantUser = {id: user.id, names: user.names}
+      const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '30m' });
+      res.status(200).send({ token : token, names: user.names});
+    });
+  }
+  
 });
 
 app.post('/signin', async (req, res) => {
@@ -59,7 +64,7 @@ app.post('/signin', async (req, res) => {
     }
     courantUser = {id: user.id, names: user.names};
     const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '30m' });
-    res.status(200).send({ token : token });
+    res.status(200).send({ token : token, names: user.names });
   });
 });
 
@@ -108,23 +113,12 @@ app.delete("/categories/:id", (req, res) => {
 //index or get all
 app.get("/expenses", (req, res) => {
   try {
-    //Expense.selectAllRelatedToCategories().then((data) => res.status(201).json({message: 'Successfully'}))
     res.json({ expenses: (Expense.selectAllRelatedToCategories(courantUser.id)) });
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
   
 });
-/*
-app.get("/expenses-no-related", (req, res) => {
-  try {
-    res.json({ expenses: (Expense.selectAll(courantUser.id)) });
-  } catch (error) {
-    res.status(500).send({ message: error.message });
-  }
-  
-});*/
-//update
 
 app.put("/expenses/:id", (req, res) => {
   try {
