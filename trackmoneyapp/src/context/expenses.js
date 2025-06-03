@@ -7,10 +7,10 @@ const Provider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [loadingAllExpenses, setLoadingAllExpenses] = useState(true);
     const [expensesAll, setExpensesAll] = useState([]);
-    let port = '3001';
-    let baseUrl = 'http://localhost';
+    //let port = '3001';
+    let baseUrl = 'https://react-node-app-psi.vercel.app';
     const getExpenses = async () => {
-        const url = `${baseUrl}:${port}/expenses`;
+        const url = `${baseUrl}/expenses`;
         setLoading(true);
         try {
             const response = await fetch(url, {
@@ -37,7 +37,7 @@ const Provider = ({ children }) => {
     };
 
     const getExpensesAll = async () => {
-        const url = `${baseUrl}:${port}/expenses`;
+        const url = `${baseUrl}/expenses`;
         setLoadingAllExpenses(true);
         try {
             const response = await fetch(url, {
@@ -66,7 +66,7 @@ const Provider = ({ children }) => {
     const  createExpense = async (date, amount, description, idCategorie) => {
         //call an API to create new expenses
         setLoading(true);
-        const url = `${baseUrl}:${port}/expenses`;
+        const url = `${baseUrl}/expenses`;
         try {
             const response = await fetch(url, {
                 method: 'POST',
@@ -97,7 +97,7 @@ const Provider = ({ children }) => {
     //remove 
     const removeExpense = async (id) => {
         setLoading(true);
-        const url = `${baseUrl}:${port}/expenses/${id}`;
+        const url = `${baseUrl}/expenses/${id}`;
 
         try {
             const response = await fetch(url, {
@@ -120,7 +120,7 @@ const Provider = ({ children }) => {
     };
 
     const changeExpense = async (amount, date, description, idCategorie, id) => {
-        const url = `${baseUrl}:${port}/expenses/${id}`;
+        const url = `${baseUrl}/expenses/${id}`;
         const data = {amount, date, description, idCategorie, id};
         setLoading(true);
         try {
