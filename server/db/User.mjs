@@ -3,7 +3,15 @@ import connection from "./config.mjs"
 class User {
     static user;
 
-    static insert({username, password, names, dateT}) {
+    static isPromise(p) {
+        if (typeof p === 'object' && typeof p.then === 'function') {
+          return true;
+        }
+      
+        return false;
+      }
+
+    static async insert({username, password, names, dateT}) {
         return new Promise((resolve) => {
             let lastId;
             let user = {username, password, names, dateT}
@@ -12,13 +20,22 @@ class User {
                 lastId = results.insertId;
                 resolve(lastId);
             })
-            
         })
-        
         
     }
 
-   
+    static checkIfUsernameExist(username) {
+        //check if the user exist before insert him
+        let sql = 'SELECT * FROM user WHERE username = ? order by id desc';
+        return new Promise((resolve) => {
+            let content = [username]
+            let query = connection.query(sql, content,function (error, results, fields) {
+                if (error) throw error;
+                resolve(results.length);
+            })
+            
+        })
+    }
     static selectAll() {
         let sql = 'SELECT * FROM user order by id desc';
         return new Promise((resolve) => {

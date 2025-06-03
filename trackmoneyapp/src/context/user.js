@@ -6,6 +6,7 @@ const ProviderU = ({ children }) => {
     const [token, setToken] = useState(sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '');
     const [loading, setLoading] = useState(true);
     const [activeMenu, setActiveMenu] = useState('Home');
+    const [message, setMessage] = useState('')
     let port = '3001';
     let baseUrl = 'http://localhost';
     const signUser = async ({username, password, names = null, dateT = null}, url) => {
@@ -23,15 +24,19 @@ const ProviderU = ({ children }) => {
             const responseData = await response.json();
             if (responseData) {
                 console.log(responseData)
-                setToken(responseData.token);
-                sessionStorage.setItem('token', responseData.token);
+                if (responseData.message != null) {
+                    setMessage(responseData.message);
+                } else {
+                    setToken(responseData.token);
+                    sessionStorage.setItem('token', responseData.token);
+                }
             }
         } catch (error) {
             console.error('Error occured when creating a new expense : ', error);
         }
     };
 
-    const shared = {token, setToken, signUser, loading, activeMenu, setActiveMenu};
+    const shared = {token, message, setToken, signUser, loading, activeMenu, setActiveMenu};
 
     return (
         <UsersContext.Provider value={shared}>{children}</UsersContext.Provider>

@@ -1,14 +1,10 @@
-import { useEffect, useContext, useState } from "react";
+import { useEffect, useContext } from "react";
 import ExpensesContext from "./context/expenses";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import CategoriesContext from "./context/categories";
 import BarChart from "./components/features/barchart";
-
 import UsersContext from "./context/user";
-import CategoriesList from "./components/categories/CategorieList";
-import ExpensesList from "./components/expenses/ExpensesList";
-import { useLocation } from "react-router";
 
 export default function Home() {
   const {getExpensesAll, loadingAllExpenses, expensesAll} = useContext(ExpensesContext);
@@ -25,7 +21,7 @@ export default function Home() {
     categories.map((categorie) => {
       expenseFilterByCategori = expensesAll.filter((expense) => categorie.id === expense.idCategorie)
       let arrayToReduce = [];
-      if (expenseFilterByCategori.length == 0) {
+      if (expenseFilterByCategori.length === 0) {
         arrayToReduce.push(0)
       } else {
         for (let i = 0; i < expenseFilterByCategori.length; i++) {
@@ -52,9 +48,6 @@ export default function Home() {
       }
     ]
   };
-    console.log(chartData);
-    console.log(categories);
-    console.log(expensesAll);
     if (loading && loadingAllExpenses) {
        return (
         <div>
