@@ -9,8 +9,7 @@ import bcrypt from 'bcryptjs';
 const PORT = process.env.PORT || 3001;
 let courantUser;
 const app = express();
-app.use(cors({ origin: 'https://react-node-app-wcx7.vercel.app' }));
-app.options('*', cors());
+app.use(cors({origin: 'https://react-node-app-wcx7.vercel.app'}));
 app.use(express.json());
 const secretKey = 'kalunga';
 
