@@ -3,7 +3,7 @@
       {
         "source": "/api/(.*)",
         "headers": [
-          { "key": "Access-Control-Allow-Origin", "value": "https://react-node-app-psi.vercel.app" },
+          { "key": "Access-Control-Allow-Origin", "value": "https://react-node-app-wcx7.vercel.app" },
           { "key": "Access-Control-Allow-Methods", "value": "GET, POST, OPTIONS" },
           { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" },
           { "key": "Access-Control-Allow-Credentials", "value": "true" }
