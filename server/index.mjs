@@ -7,9 +7,10 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 const PORT = process.env.PORT || 3001;
+const ALLOWED_ORIGIN = "https://react-node-app-psi.vercel.app";
 let courantUser;
 const app = express();
-app.use(cors());
+app.use(cors({origin: ALLOWED_ORIGIN}));
 app.use(express.json());
 const secretKey = 'kalunga';
 
