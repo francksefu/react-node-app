@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 const PORT = process.env.PORT || 3001;
-const ALLOWED_ORIGIN = "https://react-node-app-psi.vercel.app";
+const ALLOWED_ORIGIN = "https://react-node-app-wcx7.vercel.app";
 let courantUser;
 const app = express();
 app.use(cors({origin: ALLOWED_ORIGIN}));
