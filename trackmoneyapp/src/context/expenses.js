@@ -9,7 +9,7 @@ const Provider = ({ children }) => {
     const [expensesAll, setExpensesAll] = useState([]);
     //let port = '3001';
     //let baseUrl = 'http://localhost:3001';
-    let baseUrl = 'https://react-node-app-psi.vercel.app';
+    let baseUrl = 'https://react-node-app-3fyn.vercel.app';
     const getExpenses = async () => {
         const url = `${baseUrl}/expenses`;
         setLoading(true);
