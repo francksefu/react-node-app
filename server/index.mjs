@@ -9,7 +9,7 @@ import bcrypt from 'bcryptjs';
 const PORT = process.env.PORT || 3001;
 let courantUser;
 const app = express();
-app.use(cors({origin: 'http://localhost:3000'}));
+app.use(cors());
 app.use(express.json());
 const secretKey = 'kalunga';
 
