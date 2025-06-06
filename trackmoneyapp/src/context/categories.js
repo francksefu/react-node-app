@@ -6,7 +6,7 @@ const ProviderC = ({ children }) => {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     //let port = '3001';
-    let baseUrl = 'https://react-node-app-psi.vercel.app';
+    let baseUrl = 'http://localhost:3001';
     const getCategories = async (returnValueMyself = false) => {
         const url = `${baseUrl}/categories`;
         setLoading(true);

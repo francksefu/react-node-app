@@ -27,7 +27,7 @@ const SignUp = () => {
             .required('You must provide your birthday date')
         }),
         onSubmit: async (values) => {
-            await signUser(values, 'https://react-node-app-psi.vercel.app/signup');
+            await signUser(values, 'http://localhost:3001/signup');
         }
       });
     //
