@@ -8,6 +8,7 @@ import bcrypt from 'bcryptjs';
 
 const PORT = process.env.PORT || 3001;
 let courantUser;
+const serverless = require('serverless-http');
 const app = express();
 app.use(cors({
   origin: 'http://localhost:3000', // or use "*" for all origins (less secure)
@@ -165,6 +166,7 @@ app.post('/signup', async (req, res) => {
   User.insert(username, hashedPassword);
 })
 
+module.exports = serverless(app);
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
