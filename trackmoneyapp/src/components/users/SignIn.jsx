@@ -21,7 +21,7 @@ const SignIn = () => {
             .min(8, 'Must be 8 characters or more')       
         }),
         onSubmit: async (values) => {
-            await signUser(values, 'https://expense-related.netlify.app/signin');
+            await signUser(values, 'https://react-node-app-psi.vercel.app/signin');
         }
       });
       //
