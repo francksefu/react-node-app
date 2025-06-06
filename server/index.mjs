@@ -2,14 +2,14 @@ import express from "express";
 import Expense from "./db/Expense.mjs";
 import Categorie from "./db/categorie.mjs";
 import User from "./db/User.mjs";
-import cors from "cors";
+//import cors from "cors";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 const PORT = process.env.PORT || 3001;
 let courantUser;
 const app = express();
-app.use(cors());
+//app.use(cors());
 app.use(express.json());
 const secretKey = 'kalunga';
 
