@@ -29,7 +29,13 @@ const authenticateToken = (req, res, next) => {
 };
 
 app.get('/franck', (req, res) => {
-  res.status(200).send({ message : 'Chesko' });
+  
+    console.log(courantUser);
+    try {
+      res.json({ categories: (Categorie.selectAll(courantUser.id)) });
+    } catch (error) {
+      res.status(500).send({ message: error.message });
+    }
 })
 app.post('/signup', async (req, res) => {
   const { username, password, names, dateT } = req.body;
