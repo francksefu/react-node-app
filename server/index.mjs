@@ -7,36 +7,8 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 
-const app = express();
-app.use(express.json());
 
-app.get("/expenses", (req, res) => {
-  try {
-    res.json({ expenses: 'Hello world' });
-  } catch (error) {
-    res.status(500).send({ message: error.message });
-  }
-  
-});
-
-app.get("/categories", (req, res) => {
-  try {
-    res.json({ expenses: 'Hello world C' });
-  } catch (error) {
-    res.status(500).send({ message: error.message });
-  }
-  
-});
-
-app.post('/signin', async (req, res) => {
-  try {
-    res.json({ expenses: 'Hello world U' });
-  } catch (error) {
-    res.status(500).send({ message: error.message });
-  }
-});
-/*
-//const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3001;
 let courantUser;
 const app = express();
 app.use(cors());
@@ -192,6 +164,6 @@ app.post('/signup', async (req, res) => {
 })
 
 
-/*app.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server listening on ${'ok'}`);
-});*/
+});
