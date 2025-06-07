@@ -28,6 +28,9 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
+app.get('/franck', (req, res) => {
+  res.status(200).send({ message : 'Chesko' });
+})
 app.post('/signup', async (req, res) => {
   const { username, password, names, dateT } = req.body;
   const hashedPassword = await bcrypt.hash(password, 8);
