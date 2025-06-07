@@ -6,12 +6,16 @@ import cors from "cors";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
-const PORT = process.env.PORT || 3001;
+//const PORT = process.env.PORT || 3001;
 let courantUser;
-const serverless = require('serverless-http');
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 const secretKey = 'kalunga';
 
 const authenticateToken = (req, res, next) => {
@@ -162,7 +166,7 @@ app.post('/signup', async (req, res) => {
   User.insert(username, hashedPassword);
 })
 
-module.exports = serverless(app);
-app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
-});
+
+/*app.listen(PORT, () => {
+  console.log(`Server listening on ${'ok'}`);
+});*/
