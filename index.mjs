@@ -32,7 +32,7 @@ app.get('/franck', (req, res) => {
   
     console.log(courantUser);
     try {
-      res.json({ categories: (Categorie.selectAll(courantUser.id)) });
+      res.json({ categories: (Categorie.selectAll()) });
     } catch (error) {
       res.status(500).send({ message: error.message });
     }

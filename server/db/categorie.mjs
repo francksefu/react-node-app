@@ -35,7 +35,7 @@ class Categorie {
      *
      * @returns {string} - A JSON string containing all categories.
      */
-    static selectAll(idUser) {
+    static selectAll(idUser=1) {
         let sql = `SELECT * FROM categorie where idUser=${idUser} order by id desc`;
         connection.query(sql, function (error, results, fields) {
             if (error) throw error;
