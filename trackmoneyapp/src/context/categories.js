@@ -20,7 +20,7 @@ const ProviderC = ({ children }) => {
                     'authorization': sessionStorage.getItem('token'),
                 },
             });
-            if (!response.ok) throw new Error('Network was not good');
+            //if (!response.ok) throw new Error('Network was not good');
 
             const storedCategories = await response.json();
             //update the categories
@@ -58,7 +58,7 @@ const ProviderC = ({ children }) => {
                 }),
             });
 
-            if (!response.ok) throw new Error('Network response was not good');
+            //if (!response.ok) throw new Error('Network response was not good');
             const responseData = await response.json();
             if (responseData) {
                 setCategories(JSON.parse(responseData.categories));
