@@ -168,5 +168,5 @@ app.post('/signup', async (req, res) => {
 
 
 /*app.listen(PORT, () => {
-  console.log(`Server listening on ${'ok'}`);
+  console.log(`Server listening on ${PORT}`);
 });*/
