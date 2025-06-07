@@ -8,6 +8,7 @@ const ProviderC = ({ children }) => {
     //let port = '3001';
     //let baseUrl = 'http://localhost:3001';
     let baseUrl = 'https://react-node-app-3fyn.vercel.app';
+    
     const getCategories = async (returnValueMyself = false) => {
         const url = `${baseUrl}/categories`;
         setLoading(true);
