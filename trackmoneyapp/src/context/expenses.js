@@ -56,6 +56,8 @@ const Provider = ({ children }) => {
             if (storedExpenses) {
                 setLoadingAllExpenses(false);
                 setExpensesAll(JSON.parse(storedExpenses.expenses));
+            } else {
+                console.log('not good, too fast')
             }
             
         } catch (error) {
