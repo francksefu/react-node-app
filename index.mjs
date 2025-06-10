@@ -84,9 +84,9 @@ app.use(authenticateToken);
 app.get("/categories", (req, res) => {
   console.log(courantUser);
   try {
-    res.json({ categories: (Categorie.selectAll(courantUser.id)), id: courantUser.id});
+    res.json({ categories: (Categorie.selectAll(courantUser.id)), id: JSON.stringify(courantUser.id)});
   } catch (error) {
-    res.status(500).send({ message: error.message, id: courantUser.id });
+    res.status(500).send({ message: error.message, id: JSON.stringify(courantUser.id) });
   }
 });
 
