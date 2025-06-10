@@ -104,7 +104,8 @@ app.post("/categories", (req, res) => {
 app.put("/categories/:id", (req, res) => {
   try {
     let categorieItem = req.body;
-    Categorie.update(categorieItem, courantUser.id).then((data) => res.status(201).json({message: 'Successfully added', categories: data }));
+    const idUser = req.headers['authorization'].split('#$%##')[1];
+    Categorie.update(categorieItem, idUser).then((data) => res.status(201).json({message: 'Successfully added', categories: data }));
   ;
   } catch (error) {
     res.status(500).send({ message: error.message });
@@ -114,7 +115,8 @@ app.put("/categories/:id", (req, res) => {
 app.delete("/categories/:id", (req, res) => {
   try {
     let id = req.params.id;
-    Categorie.delete(id, courantUser.id).then((data) => res.status(201).json({message: 'Successfully added', categories: data }));
+    const idUser = req.headers['authorization'].split('#$%##')[1];
+    Categorie.delete(id, idUser).then((data) => res.status(201).json({message: 'Successfully added', categories: data }));
   ;
   } catch (error) {
     res.status(500).send({ message: error.message });
@@ -125,7 +127,8 @@ app.delete("/categories/:id", (req, res) => {
 //index or get all
 app.get("/expenses", (req, res) => {
   try {
-    res.json({ expenses: (Expense.selectAllRelatedToCategories(courantUser.id)) });
+    const idUser = req.headers['authorization'].split('#$%##')[1];
+    res.json({ expenses: (Expense.selectAllRelatedToCategories(idUser)) });
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
@@ -135,7 +138,8 @@ app.get("/expenses", (req, res) => {
 app.put("/expenses/:id", (req, res) => {
   try {
     let expenseItem = req.body;
-    Expense.update(expenseItem, courantUser.id).then((data) => res.status(201).json({message: 'Successfully added', expenses: data }));
+    const idUser = req.headers['authorization'].split('#$%##')[1];
+    Expense.update(expenseItem, idUser).then((data) => res.status(201).json({message: 'Successfully added', expenses: data }));
   ;
   } catch (error) {
     res.status(500).send({ message: error.message });
@@ -145,7 +149,8 @@ app.put("/expenses/:id", (req, res) => {
 app.delete("/expenses/:id", (req, res) => {
   try {
     let id = req.params.id;
-    Expense.delete(id, courantUser.id).then((data) => res.status(201).json({message: 'Successfully added', expenses: data }));
+    const idUser = req.headers['authorization'].split('#$%##')[1];
+    Expense.delete(id, idUser).then((data) => res.status(201).json({message: 'Successfully added', expenses: data }));
   ;
   } catch (error) {
     res.status(500).send({ message: error.message });
@@ -157,7 +162,8 @@ app.delete("/expenses/:id", (req, res) => {
 app.post("/expenses", (req, res) => {
   try {
     let expenses = (req.body);
-    Expense.insert(expenses, courantUser.id).then((data) => res.status(201).json({message: 'Successfully added', expenses: data }));
+    const idUser = req.headers['authorization'].split('#$%##')[1];
+    Expense.insert(expenses, idUser).then((data) => res.status(201).json({message: 'Successfully added', expenses: data }));
   } catch(error) {
     res.status(500).send({ message: error.message });
   }
@@ -166,12 +172,6 @@ app.post("/expenses", (req, res) => {
 app.get("/api", (req, res) => {
     res.json({ message: 'Hello franck' });
 });
-
-app.post('/signup', async (req, res) => {
-  const {username, password} = req.body;
-  const hashedPassword = await bycrypt.hash(password, 8);
-  User.insert(username, hashedPassword);
-})
 
 
 app.listen(PORT, () => {
