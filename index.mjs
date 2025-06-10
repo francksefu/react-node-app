@@ -28,15 +28,6 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-app.get('/franck', (req, res) => {
-  
-    console.log(courantUser);
-    try {
-      res.json({ categories: (Categorie.selectAll()) });
-    } catch (error) {
-      res.status(500).send({ message: error.message });
-    }
-})
 app.post('/signup', async (req, res) => {
   const { username, password, names, dateT } = req.body;
   const hashedPassword = await bcrypt.hash(password, 8);
@@ -55,7 +46,7 @@ app.post('/signup', async (req, res) => {
       }
       courantUser = {id: user.id, names: user.names}
       const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '50m' });
-      res.status(200).send({ token : token + "#$%##" + user.id, names: user.names + "#$%" + user.id});
+      res.status(200).send({ token : token + "#$%##" + user.id, names: user.names});
     });
   }
   
