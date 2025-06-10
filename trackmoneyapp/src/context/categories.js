@@ -37,7 +37,7 @@ const ProviderC = ({ children }) => {
             
         } catch (error) {
             setLoading(false);
-            console.error(error);
+            console.error('Error during the get process : ', error);
         }
     };
 

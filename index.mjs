@@ -86,7 +86,7 @@ app.get("/categories", (req, res) => {
   try {
     res.json({ categories: (Categorie.selectAll(courantUser.id)), id: JSON.stringify(courantUser.id)});
   } catch (error) {
-    res.status(500).send({ message: error.message, id: JSON.stringify(courantUser.id) });
+    res.status(500).send({ message: error.message});
   }
 });
 
