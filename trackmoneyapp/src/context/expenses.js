@@ -51,6 +51,7 @@ const Provider = ({ children }) => {
             if (!response.ok) throw new Error('Network was not good');
 
             const storedExpenses = await response.json();
+            console.log(storedExpenses);
             //update the expenses
             
             if (storedExpenses) {
