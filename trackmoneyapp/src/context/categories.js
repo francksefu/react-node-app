@@ -30,6 +30,7 @@ const ProviderC = ({ children }) => {
                 return {options: data};
             }
             else if(storedCategories) {
+                console.log(storedCategories);
                 setLoading(false);
                 setCategories(JSON.parse(storedCategories.categories));
             }
