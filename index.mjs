@@ -17,7 +17,7 @@ const secretKey = 'kalunga';
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
-  const token = authHeader;
+  const token = authHeader.split('#$%##')[0];
 
   if (!token) return res.status(401).send(JSON.stringify({message: 'Token required'}));
 
@@ -54,8 +54,8 @@ app.post('/signup', async (req, res) => {
         return res.status(401).send('Invalid credentials');
       }
       courantUser = {id: user.id, names: user.names}
-      const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '30m' });
-      res.status(200).send({ token : token, names: user.names});
+      const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '50m' });
+      res.status(200).send({ token : token + "#$%##" + user.id, names: user.names + "#$%" + user.id});
     });
   }
   
@@ -74,17 +74,17 @@ app.post('/signin', async (req, res) => {
       return res.status(401).send('Invalid credentials');
     }
     courantUser = {id: user.id, names: user.names};
-    const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '30m' });
-    res.status(200).send({ token : token, names: user.names });
+    const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '50m' });
+    res.status(200).send({ token : token + "#$%##" + user.id, names: user.names + "#$%" + user.id });
   });
 });
 
 app.use(authenticateToken);
 //index or get all
 app.get("/categories", (req, res) => {
-  console.log(courantUser);
+  const idUser = req.headers['authorization'].split('#$%##')[1];
   try {
-    res.json({ categories: (Categorie.selectAll(courantUser.id)), id: JSON.stringify(courantUser.id)});
+    res.json({ categories: (Categorie.selectAll(idUser)), id: JSON.stringify(idUser)});
   } catch (error) {
     res.status(500).send({ message: error.message});
   }
@@ -94,7 +94,8 @@ app.get("/categories", (req, res) => {
 app.post("/categories", (req, res) => {
   try {
     let categorie = req.body;
-    Categorie.insert(categorie, courantUser.id).then((data) => res.status(201).json({message: 'Successfully added', categories: data }));
+    const idUser = req.headers['authorization'].split('#$%##')[1];
+    Categorie.insert(categorie, idUser).then((data) => res.status(201).json({message: 'Successfully added', categories: data }));
   } catch(error) {
     res.status(500).send({ message: error.message });
   }
