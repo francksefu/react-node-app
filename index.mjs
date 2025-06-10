@@ -128,7 +128,7 @@ app.delete("/categories/:id", (req, res) => {
 app.get("/expenses", (req, res) => {
   try {
     const idUser = req.headers['authorization'].split('#$%##')[1];
-    res.json({ expenses: (Expense.selectAllRelatedToCategories(idUser)) });
+    res.json({ expenses: (Expense.selectAllRelatedToCategories(idUser)), message: 'Successfully process' });
   } catch (error) {
     res.status(500).send({ message: error.message });
   }

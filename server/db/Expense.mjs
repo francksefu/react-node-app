@@ -31,7 +31,7 @@ class Expense {
         })
         return Expense.expenses;
     }*/
-    static selectAllRelatedToCategories(idUser) {
+    static selectAllRelatedToCategories(idUser=1) {
         let sql = `SELECT expense.id, expense.amount, expense.date, expense.description, expense.idCategorie, categorie.name FROM expense, categorie where (expense.idCategorie = categorie.id) and (categorie.idUser = ${idUser}) order by id desc`;
         connection.query(sql, function (error, results, fields) {
             if (error) throw error;
