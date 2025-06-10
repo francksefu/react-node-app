@@ -11,12 +11,12 @@ class Categorie {
                 if (err) throw err;
                 lastId = results.insertId;
             })
-            /*let sql = `SELECT * FROM categorie WHERE categorie.idUser=${idUser} order by id desc`;
+            let sql = `SELECT * FROM categorie WHERE categorie.idUser=${idUser} order by id desc`;
             connection.query(sql, function (error, results, fields) {
                 if (error) throw error;
                 resolve(JSON.stringify(results));
-            })*/
-           Categorie.recoverCategories(resolve, idUser);
+            })
+           //Categorie.recoverCategories(resolve, idUser);
             
         })
         
