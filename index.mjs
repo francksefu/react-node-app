@@ -44,7 +44,7 @@ app.post('/signup', async (req, res) => {
         return res.status(401).send('Invalid credentials');
       }
       courantUser = {id: user.id, names: user.names}
-      const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '50m' });
+      const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '300m' });
       res.status(200).send({ token : token + "#$%##" + user.id, names: user.names});
     });
   }
@@ -65,7 +65,7 @@ app.post('/signin', async (req, res) => {
     }
     courantUser = {id: user.id, names: user.names};
     const token = jwt.sign({ userId: user.username }, secretKey, { expiresIn: '50m' });
-    res.status(200).send({ token : token + "#$%##" + user.id, names: user.names + "#$%" + user.id });
+    res.status(200).send({ token : token + "#$%##" + user.id, names: user.names });
   });
 });
 
