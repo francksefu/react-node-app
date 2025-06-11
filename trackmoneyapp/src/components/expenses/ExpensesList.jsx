@@ -9,7 +9,7 @@ import { useNavigate } from "react-router";
 
 const ExpensesList = () => {
     const {token} = useContext(UsersContext);
-    const {expenses, loading, getExpenses} = useContext(ExpensesContext);
+    const { getExpenses, expenses, loading } = useContext(ExpensesContext);
     const navigate = useNavigate();
     useEffect(() => {
         getExpenses();

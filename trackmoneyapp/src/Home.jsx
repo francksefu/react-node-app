@@ -7,11 +7,11 @@ import BarChart from "./components/features/barchart";
 import UsersContext from "./context/user";
 
 export default function Home() {
-  const {getExpensesAll, loadingAllExpenses, expensesAll} = useContext(ExpensesContext);
+  const {getExpensesAll, expensesAll, loadingAllExpenses} = useContext(ExpensesContext);
   const { getCategories, categories, loading} = useContext(CategoriesContext);
   const {token, names} = useContext(UsersContext);
-  useEffect(() => {
-    getExpensesAll();
+  useEffect(async () => {
+    await getExpensesAll();
     getCategories();
   }, []);
 
