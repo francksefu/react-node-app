@@ -1,4 +1,5 @@
-import connection from "./config.mjs"
+//import 'dotenv/config';
+import connection from "../../config.mjs"
 
 class Categorie {
     static categories;

@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from "express";
 import Expense from "./server/db/Expense.mjs";
 import Categorie from "./server/db/categorie.mjs";
@@ -5,8 +6,6 @@ import User from "./server/db/User.mjs";
 import cors from "cors";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-
-
 
 const PORT = process.env.PORT || 3001;
 let courantUser;
