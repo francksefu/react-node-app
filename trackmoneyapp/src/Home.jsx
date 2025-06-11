@@ -10,8 +10,8 @@ export default function Home() {
   const {getExpensesAll, expensesAll, loadingAllExpenses} = useContext(ExpensesContext);
   const { getCategories, categories, loading} = useContext(CategoriesContext);
   const {token, names} = useContext(UsersContext);
-  useEffect(async () => {
-    await getExpensesAll();
+  useEffect(() => {
+    getExpensesAll();
     getCategories();
   }, []);
 
